@@ -1,9 +1,4 @@
-// Notes:
-// is there a nicer way to access the 2nd child of each reel
-// this pattern is ugly:
-// var lists = document.getElementsByTagName('ul');
-// var child = lists[i].getElementsByTagName('li')[1].className;
-
+// TODO, having issues after reels are shuffled in play()
 var EspressoBar = React.createClass({
   getInitialState: function() {
     return {
