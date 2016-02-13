@@ -1,5 +1,5 @@
 // TODO, having issues after reels are shuffled in play()
-var EspressoBar = React.createClass({
+var EspressoBar = React.createClass({displayName: "EspressoBar",
   getInitialState: function() {
     return {
       winner: '',
@@ -103,28 +103,28 @@ var EspressoBar = React.createClass({
 
   render: function() {
     return (
-      <div className="container">
-        <Reel id="reel1" top={this.state.reels.reel1.top} middle={this.state.reels.reel1.middle} bottom={this.state.reels.reel1.bottom} />
-        <Reel id="reel2" top={this.state.reels.reel2.top} middle={this.state.reels.reel2.middle} bottom={this.state.reels.reel2.bottom} />
-        <Reel id="reel3" top={this.state.reels.reel3.top} middle={this.state.reels.reel3.middle} bottom={this.state.reels.reel3.bottom} />
-        <button onClick={this.play} className="btn btn-primary">Play!</button>
-      </div>
+      React.createElement("div", {className: "container"}, 
+        React.createElement(Reel, {id: "reel1", top: this.state.reels.reel1.top, middle: this.state.reels.reel1.middle, bottom: this.state.reels.reel1.bottom}), 
+        React.createElement(Reel, {id: "reel2", top: this.state.reels.reel2.top, middle: this.state.reels.reel2.middle, bottom: this.state.reels.reel2.bottom}), 
+        React.createElement(Reel, {id: "reel3", top: this.state.reels.reel3.top, middle: this.state.reels.reel3.middle, bottom: this.state.reels.reel3.bottom}), 
+        React.createElement("button", {onClick: this.play, className: "btn btn-primary"}, "Play!")
+      )
     )
   }
 });
 
-var Reel = React.createClass({
+var Reel = React.createClass({displayName: "Reel",
   render: function() {
     return (
-      <div className="col-md-4">
-        <ul id={this.props.id} className="list-unstyled">
-          <li>{this.props.top}</li>
-          <li>{this.props.middle}</li>
-          <li>{this.props.bottom}</li>
-        </ul>
-      </div>
+      React.createElement("div", {className: "col-md-4"}, 
+        React.createElement("ul", {id: this.props.id, className: "list-unstyled"}, 
+          React.createElement("li", null, this.props.top), 
+          React.createElement("li", null, this.props.middle), 
+          React.createElement("li", null, this.props.bottom)
+        )
+      )
     )
   }
 });
 
-React.render(<EspressoBar/>, document.getElementById('react-container'));
+React.render(React.createElement(EspressoBar, null), document.getElementById('react-container'));
