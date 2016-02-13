@@ -4,101 +4,132 @@
 // var lists = document.getElementsByTagName('ul');
 // var child = lists[i].getElementsByTagName('li')[1].className;
 
-var EspressoBar = React.createClass({displayName: "EspressoBar",
+var EspressoBar = React.createClass({
+  getInitialState: function() {
+    return {
+      winner: '',
+      reels: {
+        reel1: {
+          top: 'coffee maker',
+          middle: 'teapot',
+          bottom: 'espresso machine',
+        },
+        reel2: {
+          top: 'coffee filter',
+          middle: 'tea strainer',
+          bottom: 'espresso tamper'
+        },
+        reel3: {
+          top: 'coffee grounds',
+          middle: 'loose tea',
+          bottom: 'espresso beans'
+        }
+      }
+    };
+  },
+
+  // shuffles (randomizes) the reel values in state
   play: function() {
-    // TODO, I keep doing this, can we store this globally?
-    var lists = document.getElementsByTagName('ul');
-    // we need to call shuffle(); on each specific reel
-    // otherwise items will shuffle to other reels
-    for (var i = 1; i < lists.length + 1; i++){
-      $('ul#reel' + i + ' li').shuffle();
+    var reels = {};
+    var reelArray = [];
+    
+    // there are three reels, we need to do this three times
+    for (var i = 1; i <= 3; i++) {
+      var currentReel = 'reel' + i;
+
+      // push this reel's values into a temp array that we will shuffle
+      reelArray.push(this.state.reels[currentReel].top);
+      reelArray.push(this.state.reels[currentReel].middle);
+      reelArray.push(this.state.reels[currentReel].bottom);
+
+      /* Fisher-Yates Shuffle */
+      var currentIndex = reelArray.length, temporaryValue, randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = reelArray[currentIndex];
+        reelArray[currentIndex] = reelArray[randomIndex];
+        reelArray[randomIndex] = temporaryValue;
+      }
+      /* end Fisher-Yates Shuffle */
+
+      // new randomized values
+      reels[currentReel] = {
+        top: reelArray[0],
+        middle: reelArray[1],
+        bottom: reelArray[2]
+      };
+
+      // clear the temp array
+      reelArray = [];
     }
 
-    // check winner after every spin
-    this.checkWinner();
+    // set reels in state, then call getWinner();
+    this.setState({reels: reels}, this.getWinner());
+  },
+
+  getWinner: function() {
+    // this is a callback, why hasn't this.state.reels updated?
+    console.log(this.state.reels);
+
+    // we need a value that we can compare against all reels
+    var reel1 = this.state.reels.reel1.middle;
+    var winners = ['coffee', 'espresso', 'tea'];
+    for (var i = 0; i < winners.length; i++) {
+      if (reel1.indexOf(winners[i]) > -1) {
+        this.setState({winner: winners[i]});
+        break;
+      }
+    }
   },
 
   checkWinner: function() {
     // TODO
-    var lists = document.getElementsByTagName('ul');
-    var firstResult = lists[0].getElementsByTagName('li')[1].className;
+    var winners = ['coffee', 'espresso', 'tea'];
+    var winner = this.state.winner;
+    var reels = this.state.reels;
+    var reel1Val = reels.reel1.middle;
+    var reel2Val = reels.reel2.middle;
+    var reel3Val = reels.reel3.middle;
 
-    // check 2nd & 3rd reel
-    for ( var i = 1; i < lists.length; i++) {
-      var child = lists[i].getElementsByTagName('li')[1].className;
+    var test = winner + ', ' + reel2Val + ', ' + reel3Val;
 
-      // check against first reel
-      if (child !== firstResult){
-        return;
-      }
-
-    }
-    // if we made it here, we can display prize
-    this.renderPrize(firstResult);
   },
 
   renderPrize: function(str) {
     alert('you won a ' + str);
   },
 
-  // TODO: Improve
-  // render eachReel()
-  // different property names?
   render: function() {
     return (
-      React.createElement("div", {className: "container"}, 
-        React.createElement(Reel, {id: "reel1", coffee: "coffee maker", tea: "teapot", espresso: "espresso machine"}), 
-        React.createElement(Reel, {id: "reel2", coffee: "coffee filter", tea: "tea strainer", espresso: "espresso tamper"}), 
-        React.createElement(Reel, {id: "reel3", coffee: "coffee grounds", tea: "loose tea", espresso: "espresso beans"}), 
-        React.createElement("button", {onClick: this.play, className: "btn btn-primary"}, "Play!")
-      )
+      <div className="container">
+        <Reel id="reel1" top={this.state.reels.reel1.top} middle={this.state.reels.reel1.middle} bottom={this.state.reels.reel1.bottom} />
+        <Reel id="reel2" top={this.state.reels.reel2.top} middle={this.state.reels.reel2.middle} bottom={this.state.reels.reel2.bottom} />
+        <Reel id="reel3" top={this.state.reels.reel3.top} middle={this.state.reels.reel3.middle} bottom={this.state.reels.reel3.bottom} />
+        <button onClick={this.play} className="btn btn-primary">Play!</button>
+      </div>
     )
   }
 });
 
-// TODO: Improve
-// create Block component
-// render eachBlock()
-// different property names?
-var Reel = React.createClass({displayName: "Reel",
+var Reel = React.createClass({
   render: function() {
     return (
-      React.createElement("div", {className: "col-md-4"}, 
-        React.createElement("ul", {id: this.props.id, className: "list-unstyled"}, 
-          React.createElement("li", {className: "coffee"}, this.props.coffee), 
-          React.createElement("li", {className: "tea"}, this.props.tea), 
-          React.createElement("li", {className: "espresso"}, this.props.espresso)
-        )
-      )
+      <div className="col-md-4">
+        <ul id={this.props.id} className="list-unstyled">
+          <li>{this.props.top}</li>
+          <li>{this.props.middle}</li>
+          <li>{this.props.bottom}</li>
+        </ul>
+      </div>
     )
   }
 });
 
-React.render(React.createElement(EspressoBar, null), document.getElementById('react-container'));
-
-// Written by Chris Coyier
-// https://css-tricks.com/snippets/jquery/shuffle-children/
-(function($){
-  $.fn.shuffle = function() {
-    var allElems = this.get(),
-
-    getRandom = function(max) {
-      return Math.floor(Math.random() * max);
-    },
-
-    shuffled = $.map(allElems, function(){
-      var random = getRandom(allElems.length),
-          randEl = $(allElems[random]).clone(true)[0];
-      
-      allElems.splice(random, 1);
-      
-      return randEl;
-    });
-    
-    this.each(function(i){
-        $(this).replaceWith($(shuffled[i]));
-    });
-    
-    return $(shuffled);
-  };
-})(jQuery);
+React.render(<EspressoBar/>, document.getElementById('react-container'));
