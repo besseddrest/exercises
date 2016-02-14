@@ -2,22 +2,20 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
   getInitialState: function() {
     return {
       winner: '',
-      reels: {
-        reel1: {
-          top: 'coffee maker',
-          middle: 'teapot',
-          bottom: 'espresso machine',
-        },
-        reel2: {
-          top: 'coffee filter',
-          middle: 'tea strainer',
-          bottom: 'espresso tamper'
-        },
-        reel3: {
-          top: 'coffee grounds',
-          middle: 'loose tea',
-          bottom: 'espresso beans'
-        }
+      reel1: {
+        top: 'coffee maker',
+        middle: 'teapot',
+        bottom: 'espresso machine',
+      },
+      reel2: {
+        top: 'coffee filter',
+        middle: 'tea strainer',
+        bottom: 'espresso tamper'
+      },
+      reel3: {
+        top: 'coffee grounds',
+        middle: 'loose tea',
+        bottom: 'espresso beans'
       }
     };
   },
@@ -32,9 +30,9 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
       var currentReel = 'reel' + i;
 
       // push this reel's values into a temp array that we will shuffle
-      reelArray.push(this.state.reels[currentReel].top);
-      reelArray.push(this.state.reels[currentReel].middle);
-      reelArray.push(this.state.reels[currentReel].bottom);
+      reelArray.push(this.state[currentReel].top);
+      reelArray.push(this.state[currentReel].middle);
+      reelArray.push(this.state[currentReel].bottom);
 
       reelArray = this._shuffle(reelArray);
 
@@ -50,7 +48,12 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
     }
 
     // set reels in state, then call getWinner();
-    this.setState({reels: reels}, this.getWinner);
+    this.setState({
+      reel1: reels.reel1,
+      reel2: reels.reel2,
+      reel3: reels.reel3
+    }, this.getWinner);
+
   },
 
   _shuffle: function(arr) {
@@ -76,7 +79,7 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
 
   getWinner: function() {
     // we need a value that we can compare against all reels
-    var reel1 = this.state.reels.reel1.middle;
+    var reel1 = this.state.reel1.middle;
     var winners = ['coffee', 'espresso', 'tea'];
 
     // set the winner, then check the other reels
@@ -89,11 +92,9 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
   },
 
   checkWinner: function() {
-    var winners = ['coffee', 'espresso', 'tea'];
     var winner = this.state.winner;
-    var reels = this.state.reels;
-    var reel2Val = reels.reel2.middle;
-    var reel3Val = reels.reel3.middle;
+    var reel2Val = this.state.reel2.middle;
+    var reel3Val = this.state.reel3.middle;
 
     // if middle values match winner, render the prize
     if (reel2Val.indexOf(winner) > -1 && reel3Val.indexOf(winner) > -1) {
@@ -109,9 +110,9 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
   render: function() {
     return (
       React.createElement("div", {className: "container"}, 
-        React.createElement(Reel, {id: "reel1", top: this.state.reels.reel1.top, middle: this.state.reels.reel1.middle, bottom: this.state.reels.reel1.bottom}), 
-        React.createElement(Reel, {id: "reel2", top: this.state.reels.reel2.top, middle: this.state.reels.reel2.middle, bottom: this.state.reels.reel2.bottom}), 
-        React.createElement(Reel, {id: "reel3", top: this.state.reels.reel3.top, middle: this.state.reels.reel3.middle, bottom: this.state.reels.reel3.bottom}), 
+        React.createElement(Reel, {id: "reel1", top: this.state.reel1.top, middle: this.state.reel1.middle, bottom: this.state.reel1.bottom}), 
+        React.createElement(Reel, {id: "reel2", top: this.state.reel2.top, middle: this.state.reel2.middle, bottom: this.state.reel2.bottom}), 
+        React.createElement(Reel, {id: "reel3", top: this.state.reel3.top, middle: this.state.reel3.middle, bottom: this.state.reel3.bottom}), 
         React.createElement("button", {onClick: this.play, className: "btn btn-primary"}, "Play!")
       )
     )
