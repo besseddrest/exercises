@@ -1,4 +1,3 @@
-// TODO, having issues after reels are shuffled in play()
 var EspressoBar = React.createClass({
   getInitialState: function() {
     return {
@@ -23,8 +22,8 @@ var EspressoBar = React.createClass({
     };
   },
 
-  // shuffles (randomizes) the reel values in state
   play: function() {
+    // TODO: hide prize before we play another turn
     var reels = {};
     var reelArray = [];
     
@@ -37,22 +36,7 @@ var EspressoBar = React.createClass({
       reelArray.push(this.state.reels[currentReel].middle);
       reelArray.push(this.state.reels[currentReel].bottom);
 
-      /* Fisher-Yates Shuffle */
-      var currentIndex = reelArray.length, temporaryValue, randomIndex;
-
-      // While there remain elements to shuffle...
-      while (0 !== currentIndex) {
-
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        // And swap it with the current element.
-        temporaryValue = reelArray[currentIndex];
-        reelArray[currentIndex] = reelArray[randomIndex];
-        reelArray[randomIndex] = temporaryValue;
-      }
-      /* end Fisher-Yates Shuffle */
+      reelArray = this._shuffle(reelArray);
 
       // new randomized values
       reels[currentReel] = {
@@ -66,38 +50,59 @@ var EspressoBar = React.createClass({
     }
 
     // set reels in state, then call getWinner();
-    this.setState({reels: reels}, this.getWinner());
+    this.setState({reels: reels}, this.getWinner);
+  },
+
+  _shuffle: function(arr) {
+    /* Fisher-Yates Shuffle */
+    var currentIndex = arr.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = arr[currentIndex];
+      arr[currentIndex] = arr[randomIndex];
+      arr[randomIndex] = temporaryValue;
+    }
+
+    return arr;
+    /* end Fisher-Yates Shuffle */
   },
 
   getWinner: function() {
-    // this is a callback, why hasn't this.state.reels updated?
-    console.log(this.state.reels);
-
     // we need a value that we can compare against all reels
     var reel1 = this.state.reels.reel1.middle;
     var winners = ['coffee', 'espresso', 'tea'];
+
+    // set the winner, then check the other reels
     for (var i = 0; i < winners.length; i++) {
       if (reel1.indexOf(winners[i]) > -1) {
-        this.setState({winner: winners[i]});
+        this.setState({winner: winners[i]}, this.checkWinner);
         break;
       }
     }
   },
 
   checkWinner: function() {
-    // TODO
     var winners = ['coffee', 'espresso', 'tea'];
     var winner = this.state.winner;
     var reels = this.state.reels;
-    var reel1Val = reels.reel1.middle;
     var reel2Val = reels.reel2.middle;
     var reel3Val = reels.reel3.middle;
 
-    var test = winner + ', ' + reel2Val + ', ' + reel3Val;
-
+    // if middle values match winner, render the prize
+    if (reel2Val.indexOf(winner) > -1 && reel3Val.indexOf(winner) > -1) {
+      this.renderPrize(winner);
+    }
   },
 
   renderPrize: function(str) {
+    // show the prize
     alert('you won a ' + str);
   },
 
