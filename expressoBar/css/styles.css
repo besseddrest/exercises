@@ -1,0 +1,32 @@
+.container { 
+    position:relative; 
+}
+
+.img-responsive {
+  display:inline;
+}
+
+.btn {
+  margin-right:20px;
+}
+
+.reel {
+  border: 3px solid #efefef;
+  text-align: center;
+}
+
+.reel-top {
+  border-bottom:0;
+}
+
+.reel-bottom {
+  border-top:0;
+}
+
+.border-success {
+  border-color: lightgreen;
+}
+
+#prize { 
+  display:none; 
+}
