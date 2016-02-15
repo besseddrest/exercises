@@ -3,6 +3,7 @@ var EspressoBar = React.createClass({
     return {
       headline: 'Espresso Bar',
       winner: '',
+      article: 'a',
       reel1: {
         top: 'images/coffee-maker.png',
         middle: 'images/teapot.png',
@@ -84,11 +85,18 @@ var EspressoBar = React.createClass({
     // we need a value that we can compare against all reels
     var reel1 = this.state.reel1.middle;
     var winners = ['coffee', 'espresso', 'tea'];
+    var article = 'a';
 
     // set the winner, then check the other reels
     for (var i = 0; i < winners.length; i++) {
       if (reel1.indexOf(winners[i]) > -1) {
-        this.setState({winner: winners[i]}, this.checkWinner);
+        if (winners[i] === 'espresso'){
+          article = 'an';
+        }
+        this.setState({
+          winner: winners[i],
+          article: article
+        }, this.checkWinner);
         break;
       }
     }
@@ -123,7 +131,7 @@ var EspressoBar = React.createClass({
         <Reel top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} />
         <button onClick={this.play} className="btn btn-primary">Play!</button>
         <span id="prize">
-          You won a(n) {this.state.winner}!
+          Congrats! You won {this.state.article} {this.state.winner}!
         </span>
       </div>
     )
