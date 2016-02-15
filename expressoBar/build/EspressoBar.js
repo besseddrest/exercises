@@ -118,12 +118,12 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
     return (
       React.createElement("div", {className: "container"}, 
         React.createElement("h1", null, this.state.headline), 
-        React.createElement(Reel, {id: "reel1", top: this.state.reel1.top, middle: this.state.reel1.middle, bottom: this.state.reel1.bottom}), 
-        React.createElement(Reel, {id: "reel2", top: this.state.reel2.top, middle: this.state.reel2.middle, bottom: this.state.reel2.bottom}), 
-        React.createElement(Reel, {id: "reel3", top: this.state.reel3.top, middle: this.state.reel3.middle, bottom: this.state.reel3.bottom}), 
+        React.createElement(Reel, {top: this.state.reel1.top, middle: this.state.reel1.middle, bottom: this.state.reel1.bottom}), 
+        React.createElement(Reel, {top: this.state.reel2.top, middle: this.state.reel2.middle, bottom: this.state.reel2.bottom}), 
+        React.createElement(Reel, {top: this.state.reel3.top, middle: this.state.reel3.middle, bottom: this.state.reel3.bottom}), 
         React.createElement("button", {onClick: this.play, className: "btn btn-primary"}, "Play!"), 
         React.createElement("span", {id: "prize"}, 
-          "You won a ", this.state.winner, "!"
+          "You won a(n) ", this.state.winner, "!"
         )
       )
     )
@@ -134,7 +134,7 @@ var Reel = React.createClass({displayName: "Reel",
   render: function() {
     return (
       React.createElement("div", {className: "col-xs-4"}, 
-        React.createElement("ul", {id: this.props.id, className: "list-unstyled"}, 
+        React.createElement("ul", {className: "list-unstyled"}, 
           React.createElement("li", {className: "reel reel-top"}, React.createElement("img", {className: "img-responsive", src: this.props.top})), 
           React.createElement("li", {className: "reel reel-middle"}, React.createElement("img", {className: "img-responsive", src: this.props.middle})), 
           React.createElement("li", {className: "reel reel-bottom"}, React.createElement("img", {className: "img-responsive", src: this.props.bottom}))
