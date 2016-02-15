@@ -118,9 +118,9 @@ var EspressoBar = React.createClass({
     return (
       <div className="container">
         <h1>{this.state.headline}</h1>
-        <Reel id="reel1" top={this.state.reel1.top} middle={this.state.reel1.middle} bottom={this.state.reel1.bottom} />
-        <Reel id="reel2" top={this.state.reel2.top} middle={this.state.reel2.middle} bottom={this.state.reel2.bottom} />
-        <Reel id="reel3" top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} />
+        <Reel top={this.state.reel1.top} middle={this.state.reel1.middle} bottom={this.state.reel1.bottom} />
+        <Reel top={this.state.reel2.top} middle={this.state.reel2.middle} bottom={this.state.reel2.bottom} />
+        <Reel top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} />
         <button onClick={this.play} className="btn btn-primary">Play!</button>
         <span id="prize">
           You won a(n) {this.state.winner}!
@@ -134,7 +134,7 @@ var Reel = React.createClass({
   render: function() {
     return (
       <div className="col-xs-4">
-        <ul id={this.props.id} className="list-unstyled">
+        <ul className="list-unstyled">
           <li className="reel reel-top"><img className="img-responsive" src={this.props.top} /></li>
           <li className="reel reel-middle"><img className="img-responsive" src={this.props.middle} /></li>
           <li className="reel reel-bottom"><img className="img-responsive" src={this.props.bottom} /></li>
