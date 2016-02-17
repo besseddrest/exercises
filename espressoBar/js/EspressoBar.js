@@ -61,6 +61,9 @@ var EspressoBar = React.createClass({
   },
 
   _shuffle: function(arr) {
+    // A jQuery solution for spinning reels would be nice here,
+    // but we shouldn't directly mutate DOM elements in React
+
     /* Fisher-Yates Shuffle */
     var currentIndex = arr.length, temporaryValue, randomIndex;
 
