@@ -6,7 +6,21 @@ body {
 .game {
   display:inline-block;
   padding:20px;
-  background: white;
+  background: #efefef;
+}
+
+.table-success {
+  background-color: lightgreen;
+
+}
+
+.table-success td, .table-success tr {
+  border-color: lightgreen;
+  color: lightgreen;
+}
+
+.table-tictactoe {
+  background-color: white;
 }
 
 .table-tictactoe td {
