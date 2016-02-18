@@ -1,16 +1,16 @@
+body {
+  background: lightgrey;
+}
 .container { 
-    position:relative; 
+    position:relative;
 }
 
 .img-responsive {
   display:inline;
 }
 
-.btn {
-  margin-right:20px;
-}
-
 .reel {
+  background: white;
   border: 3px solid #efefef;
   text-align: center;
 }
@@ -23,10 +23,24 @@
   border-top:0;
 }
 
-.border-success {
+.border-success .reel-middle {
   border-color: lightgreen;
 }
 
-#prize { 
-  display:none; 
+#prize {
+  opacity:0.95;
+  z-index: 2;
+  display:none;
+  background:white;
+  border: 3px solid lightgreen;
+  width:400px;
+  height:350px;
+  position:absolute;
+  margin:auto;
+  top:50px;
+  right:50px;
+  bottom:50px;
+  left:50px;
+  box-shadow: 0px 5px 10px #555;
+  text-align:center;
 }

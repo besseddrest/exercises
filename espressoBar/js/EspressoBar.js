@@ -3,7 +3,7 @@ var EspressoBar = React.createClass({
     return {
       headline: 'Espresso Bar',
       winner: '',
-      article: 'a',
+      prize: '',
       reel1: {
         top: 'images/coffee-maker.png',
         middle: 'images/teapot.png',
@@ -18,14 +18,12 @@ var EspressoBar = React.createClass({
         top: 'images/coffee-grounds.png',
         middle: 'images/loose-tea.png',
         bottom: 'images/espresso-beans.png'
-      }
+      },
+      completed: false
     };
   },
 
   play: function() {
-    $('#prize').hide();
-    $('.reel-middle').removeClass('border-success');
-
     var reels = {};
     var reelArray = [];
     
@@ -112,30 +110,50 @@ var EspressoBar = React.createClass({
 
     var test = winner + ', ' + reel2Val + ', ' + reel3Val;
 
-    console.log(test);
-
     // if middle values match winner, render the prize
     if (reel2Val.indexOf(winner) > -1 && reel3Val.indexOf(winner) > -1) {
-      this.renderPrize(winner);
+      this.setPrize(winner);
     }
   },
 
-  renderPrize: function(str) {
-    $('.reel-middle').addClass('border-success');
-    $('#prize').fadeIn();
+  setPrize: function(str) {
+    var prizes = {
+      'coffee': 'images/coffee.png',
+      'tea': 'images/tea.png',
+      'espresso': 'images/espresso.png'
+    };
+
+    this.setState({prize: prizes[str]}, this.displayPrize);
+  },
+
+  displayPrize: function() {
+    setTimeout(function() {
+      $('#prize').fadeIn()
+    }, 500);
+
+    this.setState({completed: true});
+  },
+
+  hidePrize: function() {
+    $('#prize').fadeOut();
+    this.setState({completed: false});
   },
 
   render: function() {
     return (
       <div className="container">
         <h1>{this.state.headline}</h1>
-        <Reel top={this.state.reel1.top} middle={this.state.reel1.middle} bottom={this.state.reel1.bottom} />
-        <Reel top={this.state.reel2.top} middle={this.state.reel2.middle} bottom={this.state.reel2.bottom} />
-        <Reel top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} />
-        <button onClick={this.play} className="btn btn-primary">Play!</button>
-        <span id="prize">
-          Congrats! You won {this.state.article} {this.state.winner}!
-        </span>
+        <div id="prize">
+          <h2>You win!</h2>
+          <img src={this.state.prize} /><br />
+          <button onClick={this.hidePrize} className="btn btn-primary">Continue</button>
+        </div>
+        <Reel hasWinner={this.state.completed} top={this.state.reel1.top} middle={this.state.reel1.middle} bottom={this.state.reel1.bottom} />
+        <Reel hasWinner={this.state.completed} top={this.state.reel2.top} middle={this.state.reel2.middle} bottom={this.state.reel2.bottom} />
+        <Reel hasWinner={this.state.completed} top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} />
+        <div className="text-center">
+          <button onClick={this.play} className="btn btn-primary btn-lg" disabled={this.state.completed}>Play!</button>
+        </div>
       </div>
     )
   }
@@ -143,9 +161,15 @@ var EspressoBar = React.createClass({
 
 var Reel = React.createClass({
   render: function() {
+    this.classes = 'list-unstyled';
+
+    if (this.props.hasWinner) {
+      this.classes = this.classes + ' border-success';
+    }
+
     return (
       <div className="col-xs-4">
-        <ul className="list-unstyled">
+        <ul className={this.classes}>
           <li className="reel reel-top"><img className="img-responsive" src={this.props.top} /></li>
           <li className="reel reel-middle"><img className="img-responsive" src={this.props.middle} /></li>
           <li className="reel reel-bottom"><img className="img-responsive" src={this.props.bottom} /></li>

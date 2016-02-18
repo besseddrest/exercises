@@ -3,7 +3,7 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
     return {
       headline: 'Espresso Bar',
       winner: '',
-      article: 'a',
+      prize: '',
       reel1: {
         top: 'images/coffee-maker.png',
         middle: 'images/teapot.png',
@@ -18,14 +18,12 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
         top: 'images/coffee-grounds.png',
         middle: 'images/loose-tea.png',
         bottom: 'images/espresso-beans.png'
-      }
+      },
+      completed: false
     };
   },
 
   play: function() {
-    $('#prize').hide();
-    $('.reel-middle').removeClass('border-success');
-
     var reels = {};
     var reelArray = [];
     
@@ -112,29 +110,49 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
 
     var test = winner + ', ' + reel2Val + ', ' + reel3Val;
 
-    console.log(test);
-
     // if middle values match winner, render the prize
     if (reel2Val.indexOf(winner) > -1 && reel3Val.indexOf(winner) > -1) {
-      this.renderPrize(winner);
+      this.setPrize(winner);
     }
   },
 
-  renderPrize: function(str) {
-    $('.reel-middle').addClass('border-success');
-    $('#prize').fadeIn();
+  setPrize: function(str) {
+    var prizes = {
+      'coffee': 'images/coffee.png',
+      'tea': 'images/tea.png',
+      'espresso': 'images/espresso.png'
+    };
+
+    this.setState({prize: prizes[str]}, this.displayPrize);
+  },
+
+  displayPrize: function() {
+    setTimeout(function() {
+      $('#prize').fadeIn()
+    }, 500);
+
+    this.setState({completed: true});
+  },
+
+  hidePrize: function() {
+    $('#prize').fadeOut();
+    this.setState({completed: false});
   },
 
   render: function() {
     return (
       React.createElement("div", {className: "container"}, 
         React.createElement("h1", null, this.state.headline), 
-        React.createElement(Reel, {top: this.state.reel1.top, middle: this.state.reel1.middle, bottom: this.state.reel1.bottom}), 
-        React.createElement(Reel, {top: this.state.reel2.top, middle: this.state.reel2.middle, bottom: this.state.reel2.bottom}), 
-        React.createElement(Reel, {top: this.state.reel3.top, middle: this.state.reel3.middle, bottom: this.state.reel3.bottom}), 
-        React.createElement("button", {onClick: this.play, className: "btn btn-primary"}, "Play!"), 
-        React.createElement("span", {id: "prize"}, 
-          "Congrats! You won ", this.state.article, " ", this.state.winner, "!"
+        React.createElement("div", {id: "prize"}, 
+          React.createElement("h2", null, "You win!"), 
+          React.createElement("img", {src: this.state.prize}), React.createElement("br", null), 
+          React.createElement("button", {onClick: this.hidePrize, className: "btn btn-primary"}, "Continue")
+        ), 
+        React.createElement(Reel, {hasWinner: this.state.completed, top: this.state.reel1.top, middle: this.state.reel1.middle, bottom: this.state.reel1.bottom}), 
+        React.createElement(Reel, {hasWinner: this.state.completed, top: this.state.reel2.top, middle: this.state.reel2.middle, bottom: this.state.reel2.bottom}), 
+        React.createElement(Reel, {hasWinner: this.state.completed, top: this.state.reel3.top, middle: this.state.reel3.middle, bottom: this.state.reel3.bottom}), 
+        React.createElement("div", {className: "text-center"}, 
+          React.createElement("button", {onClick: this.play, className: "btn btn-primary btn-lg", disabled: this.state.completed}, "Play!")
         )
       )
     )
@@ -143,9 +161,15 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
 
 var Reel = React.createClass({displayName: "Reel",
   render: function() {
+    this.classes = 'list-unstyled';
+
+    if (this.props.hasWinner) {
+      this.classes = this.classes + ' border-success';
+    }
+
     return (
       React.createElement("div", {className: "col-xs-4"}, 
-        React.createElement("ul", {className: "list-unstyled"}, 
+        React.createElement("ul", {className: this.classes}, 
           React.createElement("li", {className: "reel reel-top"}, React.createElement("img", {className: "img-responsive", src: this.props.top})), 
           React.createElement("li", {className: "reel reel-middle"}, React.createElement("img", {className: "img-responsive", src: this.props.middle})), 
           React.createElement("li", {className: "reel reel-bottom"}, React.createElement("img", {className: "img-responsive", src: this.props.bottom}))
