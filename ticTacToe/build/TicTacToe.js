@@ -2,6 +2,7 @@ var TicTacToeBoard = React.createClass({displayName: "TicTacToeBoard",
   getInitialState: function() {
     return {
       headline: 'Tic Tac Toe',
+      subheader: 'Click the button in the lower right corner of your browser to create a new game!',
       games: []
     };
   },
@@ -35,10 +36,9 @@ var TicTacToeBoard = React.createClass({displayName: "TicTacToeBoard",
     return (
       React.createElement("div", {className: "container"}, 
         React.createElement("h1", null, this.state.headline), 
+        React.createElement("p", null, this.state.subheader), 
         this.state.games.map(this.eachGame), 
-        React.createElement("div", null, 
-          React.createElement("button", {id: "btn-add", className: "btn btn-sm btn-success glyphicon glyphicon-plus", onClick: this.add})
-        )
+        React.createElement("button", {id: "btn-add", className: "btn btn-sm btn-success glyphicon glyphicon-plus", onClick: this.add})
       )
     )
   }
@@ -75,10 +75,11 @@ var Game = React.createClass({displayName: "Game",
   },
 
   _checkWinner: function(x, y) {
-    this.moves = this.moves || 1;
     var board = this.state.board;
     var cases = this._checkRow(x) || this._checkColumn(y) || this._checkDiagonal();
-    console.log(this.moves);
+
+    // keep track of total moves
+    this.moves = this.moves || 1;
 
     // if we won by one of the cases
     if (cases) {

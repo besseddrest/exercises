@@ -2,6 +2,7 @@ var TicTacToeBoard = React.createClass({
   getInitialState: function() {
     return {
       headline: 'Tic Tac Toe',
+      subheader: 'Click the button in the lower right corner of your browser to create a new game!',
       games: []
     };
   },
@@ -35,10 +36,9 @@ var TicTacToeBoard = React.createClass({
     return (
       <div className="container">
         <h1>{this.state.headline}</h1>
+        <p>{this.state.subheader}</p>
         {this.state.games.map(this.eachGame)}
-        <div>
-          <button id="btn-add" className="btn btn-sm btn-success glyphicon glyphicon-plus" onClick={this.add} />
-        </div>
+        <button id="btn-add" className="btn btn-sm btn-success glyphicon glyphicon-plus" onClick={this.add} />
       </div>
     )
   }
