@@ -5,13 +5,31 @@ body {
 
 .game {
   display:inline-block;
+  margin: 5px;
   padding:20px;
   background: #efefef;
 }
 
+.glyphicon {
+  top: auto;
+  bottom: 10px;
+  right: 10px;
+}
+
+.glyphicon-repeat {
+  position:absolute;
+}
+
+.glyphicon-plus {
+  position: fixed;
+}
+
 .table-success {
   background-color: lightgreen;
+}
 
+.table-tied {
+  background-color: orange;
 }
 
 .table-success td, .table-success tr {
