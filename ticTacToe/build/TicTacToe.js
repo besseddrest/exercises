@@ -157,9 +157,7 @@ var Game = React.createClass({displayName: "Game",
   },
 
   _displayTie: function() {
-    this.setState({
-      tie: true
-    });
+    this.setState({tie: true});
   },
 
   restart: function() {
@@ -196,6 +194,8 @@ var Game = React.createClass({displayName: "Game",
       this.restartClasses = 'btn btn-sm btn-info glyphicon glyphicon-repeat'
     }
 
+    // is it possible to send this.state.completed to the Space child
+    // without having to pass it as a property on every component?
     return (
       React.createElement("div", {className: this.gameClasses, id: this.props.id}, 
         React.createElement("table", {className: "table-tictactoe"}, 
