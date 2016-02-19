@@ -1,15 +1,44 @@
 body {
-  background: lightgrey;
+  background: url('../images/the-mill.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
-.container { 
-    position:relative;
+
+#btn-play {
+  margin: 30px;
+  font-weight:bold;
+}
+
+.container-fluid {
+  padding: 20px 0;
+}
+
+.game-container { 
+  position: relative;
+  overflow: hidden;
 }
 
 .img-responsive {
   display:inline;
 }
 
-.reel {
+/* Reels */
+.reel.no-shift {
+  -webkit-transition: margin-top .5s ease-out;
+  transition: margin-top .5s ease-out;
+}
+
+.reel.no-shift {
+  margin-top: 0;
+}
+
+.reel.shift {
+  margin-top:-1000px;
+}
+
+.reel-item {
   background: white;
   border: 3px solid #efefef;
   text-align: center;
@@ -27,13 +56,14 @@ body {
   border-color: lightgreen;
 }
 
+/* Prize */
 #prize {
   opacity:0;
   z-index: 2;
   background:white;
   border: 3px solid lightgreen;
   width: 400px;
-  height: 375px;
+  height:375px;
   padding:0 30px;
   position:absolute;
   margin:auto;

@@ -1,10 +1,10 @@
 var EspressoBar = React.createClass({
   getInitialState: function() {
     return {
-      headline: 'Espresso Bar',
       winner: '',
       prize: '',
       completed: false,
+      shift: false,
       reel1: {
         top: 'images/coffee-maker.png',
         middle: 'images/teapot.png',
@@ -49,30 +49,41 @@ var EspressoBar = React.createClass({
       reelArray = [];
     }
 
-    // set reels in state, then call getWinner();
+    // set reels in state, then shift the reels
     this.setState({
+      shift: true,
       reel1: reels.reel1,
       reel2: reels.reel2,
       reel3: reels.reel3
-    }, this._getWinner);
+    }, this._shift);
 
   },
 
-  _shuffle: function(arr) {
-    // A jQuery solution for spinning reels (carousel/slideshow) would be nice here,
-    // but we shouldn't directly mutate DOM elements in React
+  _shift: function() {
+    // A jQuery solution for spinning the reels (carousel/slideshow) would be 
+    // much nicer here, but we shouldn't change DOM elements directly in React
+    var component = this;
 
+    // instead, we'll shift the reels out of the field of view
+    // randomize the items within the reel
+    // and then shift them back
+    setTimeout(function(){
+      component.setState({shift: false}, component._getWinner);
+    }, 100);
+  },
+
+  _shuffle: function(arr) {
     /* Fisher-Yates Shuffle */
     var currentIndex = arr.length, temporaryValue, randomIndex;
 
-    // While there remain elements to shuffle...
+    // while there remain elements to shuffle
     while (0 !== currentIndex) {
 
-      // Pick a remaining element...
+      // pick a remaining element
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
 
-      // And swap it with the current element.
+      // swap it with the current element
       temporaryValue = arr[currentIndex];
       arr[currentIndex] = arr[randomIndex];
       arr[randomIndex] = temporaryValue;
@@ -119,7 +130,12 @@ var EspressoBar = React.createClass({
   },
 
   _displayPrize: function() {
-    this.setState({completed: true});
+    var component = this;
+
+    setTimeout(function(){
+      component.setState({completed: true});
+    }, 500);
+
   },
 
   _hidePrize: function() {
@@ -127,9 +143,14 @@ var EspressoBar = React.createClass({
   },
 
   render: function() {
-    // classes will hide or show the prize
+    // classes will use CSS transitions for animation
     this.prizeClasses = '';
     this.buttonClasses = 'btn btn-primary btn-lg';
+    this.reelClasses = 'reel list-unstyled no-shift';
+
+    if (this.state.shift) {
+      this.reelClasses = 'reel list-unstyled shift';
+    }
 
     if (this.state.completed) {
       this.prizeClasses = 'winner'
@@ -137,18 +158,19 @@ var EspressoBar = React.createClass({
     }
 
     return (
-      <div className="container">
-        <h1>{this.state.headline}</h1>
+      <div className="container-fluid">
+        <div className="text-center">
+          <button id="btn-play" onClick={this.play} className={this.buttonClasses} disabled={this.state.completed}>Play the Thumbtack Espresso Machine!</button>
+        </div>
         <div id="prize" className={this.prizeClasses}>
           <h2>You win a cup of {this.state.winner}!</h2>
           <img src={this.state.prize} /><br />
           <button onClick={this._hidePrize} className="btn btn-primary">Continue</button>
         </div>
-        <Reel hasWinner={this.state.completed} top={this.state.reel1.top} middle={this.state.reel1.middle} bottom={this.state.reel1.bottom} />
-        <Reel hasWinner={this.state.completed} top={this.state.reel2.top} middle={this.state.reel2.middle} bottom={this.state.reel2.bottom} />
-        <Reel hasWinner={this.state.completed} top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} />
-        <div className="text-center">
-          <button onClick={this.play} className={this.buttonClasses} disabled={this.state.completed}>Play!</button>
+        <div className="container game-container">
+          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel1.top} middle={this.state.reel1.middle} bottom={this.state.reel1.bottom} />
+          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel2.top} middle={this.state.reel2.middle} bottom={this.state.reel2.bottom} />
+          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} />
         </div>
       </div>
     )
@@ -157,7 +179,7 @@ var EspressoBar = React.createClass({
 
 var Reel = React.createClass({
   render: function() {
-    this.classes = 'list-unstyled';
+    this.classes = this.props.className;
 
     if (this.props.hasWinner) {
       this.classes = this.classes + ' border-success';
@@ -165,10 +187,10 @@ var Reel = React.createClass({
 
     return (
       <div className="col-xs-4">
-        <ul className={this.classes}>
-          <li className="reel reel-top"><img className="img-responsive" src={this.props.top} /></li>
-          <li className="reel reel-middle"><img className="img-responsive" src={this.props.middle} /></li>
-          <li className="reel reel-bottom"><img className="img-responsive" src={this.props.bottom} /></li>
+        <ul id={this.props.id} className={this.classes}>
+          <li className="reel-item reel-top"><img className="img-responsive" src={this.props.top} /></li>
+          <li className="reel-item reel-middle"><img className="img-responsive" src={this.props.middle} /></li>
+          <li className="reel-item reel-bottom"><img className="img-responsive" src={this.props.bottom} /></li>
         </ul>
       </div>
     )
