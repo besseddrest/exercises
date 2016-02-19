@@ -4,6 +4,7 @@ var EspressoBar = React.createClass({
       headline: 'Espresso Bar',
       winner: '',
       prize: '',
+      completed: false,
       reel1: {
         top: 'images/coffee-maker.png',
         middle: 'images/teapot.png',
@@ -18,8 +19,7 @@ var EspressoBar = React.createClass({
         top: 'images/coffee-grounds.png',
         middle: 'images/loose-tea.png',
         bottom: 'images/espresso-beans.png'
-      },
-      completed: false
+      }
     };
   },
 
@@ -54,12 +54,12 @@ var EspressoBar = React.createClass({
       reel1: reels.reel1,
       reel2: reels.reel2,
       reel3: reels.reel3
-    }, this.getWinner);
+    }, this._getWinner);
 
   },
 
   _shuffle: function(arr) {
-    // A jQuery solution for spinning reels would be nice here,
+    // A jQuery solution for spinning reels (carousel/slideshow) would be nice here,
     // but we shouldn't directly mutate DOM elements in React
 
     /* Fisher-Yates Shuffle */
@@ -82,77 +82,73 @@ var EspressoBar = React.createClass({
     /* end Fisher-Yates Shuffle */
   },
 
-  getWinner: function() {
+  _getWinner: function() {
     // we need a value that we can compare against all reels
     var reel1 = this.state.reel1.middle;
     var winners = ['coffee', 'espresso', 'tea'];
-    var article = 'a';
 
     // set the winner, then check the other reels
     for (var i = 0; i < winners.length; i++) {
       if (reel1.indexOf(winners[i]) > -1) {
-        if (winners[i] === 'espresso'){
-          article = 'an';
-        }
-        this.setState({
-          winner: winners[i],
-          article: article
-        }, this.checkWinner);
+        this.setState({winner: winners[i]}, this._checkWinner);
         break;
       }
     }
   },
 
-  checkWinner: function() {
+  _checkWinner: function() {
     var winner = this.state.winner;
     var reel2Val = this.state.reel2.middle;
     var reel3Val = this.state.reel3.middle;
 
-    var test = winner + ', ' + reel2Val + ', ' + reel3Val;
-
     // if middle values match winner, render the prize
     if (reel2Val.indexOf(winner) > -1 && reel3Val.indexOf(winner) > -1) {
-      this.setPrize(winner);
+      this._setPrize(winner);
     }
   },
 
-  setPrize: function(str) {
+  _setPrize: function(str) {
     var prizes = {
       'coffee': 'images/coffee.png',
       'tea': 'images/tea.png',
       'espresso': 'images/espresso.png'
     };
 
-    this.setState({prize: prizes[str]}, this.displayPrize);
+    // sets the image of the prize that we will display
+    this.setState({prize: prizes[str]}, this._displayPrize);
   },
 
-  displayPrize: function() {
-    setTimeout(function() {
-      $('#prize').fadeIn()
-    }, 500);
-
+  _displayPrize: function() {
     this.setState({completed: true});
   },
 
-  hidePrize: function() {
-    $('#prize').fadeOut();
+  _hidePrize: function() {
     this.setState({completed: false});
   },
 
   render: function() {
+    // classes will hide or show the prize
+    this.prizeClasses = '';
+    this.buttonClasses = 'btn btn-primary btn-lg';
+
+    if (this.state.completed) {
+      this.prizeClasses = 'winner'
+      this.buttonClasses = 'btn btn-success btn-lg';
+    }
+
     return (
       <div className="container">
         <h1>{this.state.headline}</h1>
-        <div id="prize">
-          <h2>You win!</h2>
+        <div id="prize" className={this.prizeClasses}>
+          <h2>You win a cup of {this.state.winner}!</h2>
           <img src={this.state.prize} /><br />
-          <button onClick={this.hidePrize} className="btn btn-primary">Continue</button>
+          <button onClick={this._hidePrize} className="btn btn-primary">Continue</button>
         </div>
         <Reel hasWinner={this.state.completed} top={this.state.reel1.top} middle={this.state.reel1.middle} bottom={this.state.reel1.bottom} />
         <Reel hasWinner={this.state.completed} top={this.state.reel2.top} middle={this.state.reel2.middle} bottom={this.state.reel2.bottom} />
         <Reel hasWinner={this.state.completed} top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} />
         <div className="text-center">
-          <button onClick={this.play} className="btn btn-primary btn-lg" disabled={this.state.completed}>Play!</button>
+          <button onClick={this.play} className={this.buttonClasses} disabled={this.state.completed}>Play!</button>
         </div>
       </div>
     )

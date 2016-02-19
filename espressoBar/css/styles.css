@@ -28,13 +28,13 @@ body {
 }
 
 #prize {
-  opacity:0.95;
+  opacity:0;
   z-index: 2;
-  display:none;
   background:white;
   border: 3px solid lightgreen;
-  width:400px;
-  height:350px;
+  width: 400px;
+  height: 375px;
+  padding:0 30px;
   position:absolute;
   margin:auto;
   top:50px;
@@ -43,4 +43,12 @@ body {
   left:50px;
   box-shadow: 0px 5px 10px #555;
   text-align:center;
+  -webkit-transition: opacity .5s ease-in;
+  transition: opacity .5s ease-in;
+}
+
+#prize.winner {
+  opacity: 0.95;
+  -webkit-transition: opacity 1s ease-in;
+  transition: opacity 1s ease-in;
 }
