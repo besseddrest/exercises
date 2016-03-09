@@ -5,6 +5,7 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
       prize: '',
       completed: false,
       shift: false,
+      spin: false,
       reel1: {
         top: 'images/coffee-maker.png',
         middle: 'images/teapot.png',
@@ -21,6 +22,16 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
         bottom: 'images/espresso-beans.png'
       }
     };
+  },
+
+  play2: function() {
+    // spin starts the animation
+    this.setState({spin: true}, this._getSpinTimes);
+  },
+
+  _getSpinTimes: function() {
+    // 
+
   },
 
   play: function() {
@@ -186,11 +197,11 @@ var Reel = React.createClass({displayName: "Reel",
     }
 
     return (
-      React.createElement("div", {className: "col-xs-4"}, 
+      React.createElement("div", {className: "col-xs-4 reel-wrapper"}, 
         React.createElement("ul", {id: this.props.id, className: this.classes}, 
-          React.createElement("li", {className: "reel-item reel-top"}, React.createElement("img", {className: "img-responsive", src: this.props.top})), 
-          React.createElement("li", {className: "reel-item reel-middle"}, React.createElement("img", {className: "img-responsive", src: this.props.middle})), 
-          React.createElement("li", {className: "reel-item reel-bottom"}, React.createElement("img", {className: "img-responsive", src: this.props.bottom}))
+          React.createElement("li", {className: "reel-item reel-top"}, React.createElement("img", {src: this.props.top})), 
+          React.createElement("li", {className: "reel-item reel-middle"}, React.createElement("img", {src: this.props.middle})), 
+          React.createElement("li", {className: "reel-item reel-bottom"}, React.createElement("img", {src: this.props.bottom}))
         )
       )
     )

@@ -5,6 +5,7 @@ var EspressoBar = React.createClass({
       prize: '',
       completed: false,
       shift: false,
+      spin: false,
       reel1: {
         top: 'images/coffee-maker.png',
         middle: 'images/teapot.png',
@@ -21,6 +22,16 @@ var EspressoBar = React.createClass({
         bottom: 'images/espresso-beans.png'
       }
     };
+  },
+
+  play2: function() {
+    // spin starts the animation
+    this.setState({spin: true}, this._getSpinTimes);
+  },
+
+  _getSpinTimes: function() {
+    // 
+
   },
 
   play: function() {
@@ -186,11 +197,11 @@ var Reel = React.createClass({
     }
 
     return (
-      <div className="col-xs-4">
+      <div className="col-xs-4 reel-wrapper">
         <ul id={this.props.id} className={this.classes}>
-          <li className="reel-item reel-top"><img className="img-responsive" src={this.props.top} /></li>
-          <li className="reel-item reel-middle"><img className="img-responsive" src={this.props.middle} /></li>
-          <li className="reel-item reel-bottom"><img className="img-responsive" src={this.props.bottom} /></li>
+          <li className="reel-item reel-top"><img src={this.props.top} /></li>
+          <li className="reel-item reel-middle"><img src={this.props.middle} /></li>
+          <li className="reel-item reel-bottom"><img src={this.props.bottom} /></li>
         </ul>
       </div>
     )

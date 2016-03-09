@@ -17,7 +17,6 @@ body {
 
 .game-container { 
   position: relative;
-  overflow: hidden;
 }
 
 .img-responsive {
@@ -25,6 +24,15 @@ body {
 }
 
 /* Reels */
+.reel {
+ /* width: 200px;
+  height: 200px; */
+}
+
+.reel img {
+  border: 3px solid #efefef;
+}
+
 .reel.no-shift {
   -webkit-transition: margin-top .5s ease-out;
   transition: margin-top .5s ease-out;
@@ -39,8 +47,8 @@ body {
 }
 
 .reel-item {
-  background: white;
-  border: 3px solid #efefef;
+  /* background: white; */
+  /*border: 3px solid #efefef;*/
   text-align: center;
 }
 
@@ -81,4 +89,10 @@ body {
   opacity: 0.95;
   -webkit-transition: opacity 1s ease-in;
   transition: opacity 1s ease-in;
+}
+
+@media (max-width: 670px) {
+  .container {
+      width: 670px;
+  }
 }
