@@ -24,9 +24,9 @@ var EspressoBar = React.createClass({
     };
   },
 
-  play2: function() {
+  play: function() {
     // spin starts the animation
-    this.setState({spin: true}, this._getSpinTimes);
+    this.setState({spin: true});
   },
 
   _getSpinTimes: function() {
@@ -34,7 +34,7 @@ var EspressoBar = React.createClass({
 
   },
 
-  play: function() {
+  play2: function() {
     var reels = {};
     var reelArray = [];
     
@@ -179,9 +179,9 @@ var EspressoBar = React.createClass({
           <button onClick={this._hidePrize} className="btn btn-primary">Continue</button>
         </div>
         <div className="container game-container">
-          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel1.top} middle={this.state.reel1.middle} bottom={this.state.reel1.bottom} />
-          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel2.top} middle={this.state.reel2.middle} bottom={this.state.reel2.bottom} />
-          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} />
+          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel1.top} middle={this.state.reel1.middle} bottom={this.state.reel1.bottom} spinning={this.state.spin} />
+          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel2.top} middle={this.state.reel2.middle} bottom={this.state.reel2.bottom} spinning={this.state.spin} />
+          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} spinning={this.state.spin} />
         </div>
       </div>
     )
@@ -191,6 +191,11 @@ var EspressoBar = React.createClass({
 var Reel = React.createClass({
   render: function() {
     this.classes = this.props.className;
+    this.itemClasses = 'reel-item';
+
+    if (this.props.spinning) {
+      this.itemClasses = 'reel-item spinning';
+    }
 
     if (this.props.hasWinner) {
       this.classes = this.classes + ' border-success';
@@ -199,9 +204,9 @@ var Reel = React.createClass({
     return (
       <div className="col-xs-4 reel-wrapper">
         <ul id={this.props.id} className={this.classes}>
-          <li className="reel-item reel-top"><img src={this.props.top} /></li>
-          <li className="reel-item reel-middle"><img src={this.props.middle} /></li>
-          <li className="reel-item reel-bottom"><img src={this.props.bottom} /></li>
+          <li className={this.itemClasses} data-position="reel-top"><img src={this.props.top} /></li>
+          <li className={this.itemClasses} data-position="reel-middle"><img src={this.props.middle} /></li>
+          <li className={this.itemClasses} data-position="reel-bottom"><img src={this.props.bottom} /></li>
         </ul>
       </div>
     )

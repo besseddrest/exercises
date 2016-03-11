@@ -1,3 +1,25 @@
+/* animations for each reel */
+@keyframes reel-top {
+  0% { top: 0; z-index: 2; }
+  33% { top: 206px; z-index: 1; }
+  66% { top: 412px; z-index: 2; }
+  100% { top: 0; z-index: 0; }
+}
+
+@keyframes reel-middle {
+  0% { top: 206px; z-index: 2; }
+  33% { top: 412px; z-index: 0; }
+  66% { top: 0; z-index: 0;}
+  100% { top: 206px; z-index: 2; }
+}
+
+@keyframes reel-bottom {
+  0% { top: 412px; z-index: 0; }
+  33% { top: 0px; z-index: 0; }
+  66% { top: 206px; z-index: 2; }
+  100% { top: 412px; z-index: 1; }
+}
+
 body {
   background: url('../images/the-mill.jpg');
   background-position: center center;
@@ -25,17 +47,36 @@ body {
 
 /* Reels */
 .reel {
- /* width: 200px;
-  height: 200px; */
+  width: 206px;
+  height: 618px;
+  background: white;
+}
+.spinning[data-position="reel-top"] {
+  top: 0;
+  animation-name: reel-top;
+}
+
+.spinning[data-position="reel-middle"] {
+  top: 206px;
+  animation-name: reel-middle;
+}
+
+.spinning[data-position="reel-bottom"] {
+  top: 412px;
+  animation-name: reel-bottom;
+}
+
+.reel-item {
+  position:absolute;
+  display: block; 
+  animation-duration: .5s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
 }
 
 .reel img {
   border: 3px solid #efefef;
-}
-
-.reel.no-shift {
-  -webkit-transition: margin-top .5s ease-out;
-  transition: margin-top .5s ease-out;
 }
 
 .reel.no-shift {
@@ -47,8 +88,6 @@ body {
 }
 
 .reel-item {
-  /* background: white; */
-  /*border: 3px solid #efefef;*/
   text-align: center;
 }
 
@@ -75,7 +114,7 @@ body {
   padding:0 30px;
   position:absolute;
   margin:auto;
-  top:50px;
+  top:250px;
   right:50px;
   bottom:50px;
   left:50px;

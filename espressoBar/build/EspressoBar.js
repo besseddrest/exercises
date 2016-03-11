@@ -24,9 +24,9 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
     };
   },
 
-  play2: function() {
+  play: function() {
     // spin starts the animation
-    this.setState({spin: true}, this._getSpinTimes);
+    this.setState({spin: true});
   },
 
   _getSpinTimes: function() {
@@ -34,7 +34,7 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
 
   },
 
-  play: function() {
+  play2: function() {
     var reels = {};
     var reelArray = [];
     
@@ -179,9 +179,9 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
           React.createElement("button", {onClick: this._hidePrize, className: "btn btn-primary"}, "Continue")
         ), 
         React.createElement("div", {className: "container game-container"}, 
-          React.createElement(Reel, {className: this.reelClasses, hasWinner: this.state.completed, top: this.state.reel1.top, middle: this.state.reel1.middle, bottom: this.state.reel1.bottom}), 
-          React.createElement(Reel, {className: this.reelClasses, hasWinner: this.state.completed, top: this.state.reel2.top, middle: this.state.reel2.middle, bottom: this.state.reel2.bottom}), 
-          React.createElement(Reel, {className: this.reelClasses, hasWinner: this.state.completed, top: this.state.reel3.top, middle: this.state.reel3.middle, bottom: this.state.reel3.bottom})
+          React.createElement(Reel, {className: this.reelClasses, hasWinner: this.state.completed, top: this.state.reel1.top, middle: this.state.reel1.middle, bottom: this.state.reel1.bottom, spinning: this.state.spin}), 
+          React.createElement(Reel, {className: this.reelClasses, hasWinner: this.state.completed, top: this.state.reel2.top, middle: this.state.reel2.middle, bottom: this.state.reel2.bottom, spinning: this.state.spin}), 
+          React.createElement(Reel, {className: this.reelClasses, hasWinner: this.state.completed, top: this.state.reel3.top, middle: this.state.reel3.middle, bottom: this.state.reel3.bottom, spinning: this.state.spin})
         )
       )
     )
@@ -191,6 +191,11 @@ var EspressoBar = React.createClass({displayName: "EspressoBar",
 var Reel = React.createClass({displayName: "Reel",
   render: function() {
     this.classes = this.props.className;
+    this.itemClasses = 'reel-item';
+
+    if (this.props.spinning) {
+      this.itemClasses = 'reel-item spinning';
+    }
 
     if (this.props.hasWinner) {
       this.classes = this.classes + ' border-success';
@@ -199,9 +204,9 @@ var Reel = React.createClass({displayName: "Reel",
     return (
       React.createElement("div", {className: "col-xs-4 reel-wrapper"}, 
         React.createElement("ul", {id: this.props.id, className: this.classes}, 
-          React.createElement("li", {className: "reel-item reel-top"}, React.createElement("img", {src: this.props.top})), 
-          React.createElement("li", {className: "reel-item reel-middle"}, React.createElement("img", {src: this.props.middle})), 
-          React.createElement("li", {className: "reel-item reel-bottom"}, React.createElement("img", {src: this.props.bottom}))
+          React.createElement("li", {className: this.itemClasses, "data-position": "reel-top"}, React.createElement("img", {src: this.props.top})), 
+          React.createElement("li", {className: this.itemClasses, "data-position": "reel-middle"}, React.createElement("img", {src: this.props.middle})), 
+          React.createElement("li", {className: this.itemClasses, "data-position": "reel-bottom"}, React.createElement("img", {src: this.props.bottom}))
         )
       )
     )
