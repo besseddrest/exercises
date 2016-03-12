@@ -5,6 +5,9 @@ var EspressoBar = React.createClass({
       prize: '',
       completed: false,
       shift: false,
+      reel1Paused: false,
+      reel2Paused: false,
+      reel3Paused: false,
       spin: false,
       reel1: {
         top: 'images/coffee-maker.png',
@@ -26,11 +29,45 @@ var EspressoBar = React.createClass({
 
   play: function() {
     // spin starts the animation
-    this.setState({spin: true});
+    this.setState({spin: true}, this._pauseReels);
   },
 
-  _getSpinTimes: function() {
-    // 
+  _pauseReels: function() {
+    // selects the random stop times for each reel
+    var reel1Times = [1166, 1332, 1500];
+    var reel2Times = [2166, 2332, 2500];
+    var reel3Times = [3166, 3332, 3500];
+
+    var reel1Timeout = reel1Times[Math.floor(Math.random()*3)];
+    var reel2Timeout = reel2Times[Math.floor(Math.random()*3)];
+    var reel3Timeout = reel3Times[Math.floor(Math.random()*3)];
+
+    console.log(reel1Timeout + ', ' + reel2Timeout + ', ' + reel3Timeout);
+
+    var component = this;
+
+    setTimeout(function(){
+      component.setState({reel1Paused: true});
+    }, reel1Timeout);
+
+    setTimeout(function(){
+      component.setState({reel2Paused: true});
+    }, reel2Timeout);
+
+    setTimeout(function(){
+      component.setState({reel3Paused: true}, component._straightenReels);
+    }, reel3Timeout);
+
+  },
+
+  _straightenReels: function() {
+    // set reels based on new offset
+
+    // cycle through each reel and store offsets
+
+    // order each reel by offset
+
+    // set state: reels and spin
 
   },
 
@@ -179,9 +216,9 @@ var EspressoBar = React.createClass({
           <button onClick={this._hidePrize} className="btn btn-primary">Continue</button>
         </div>
         <div className="container game-container">
-          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel1.top} middle={this.state.reel1.middle} bottom={this.state.reel1.bottom} spinning={this.state.spin} />
-          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel2.top} middle={this.state.reel2.middle} bottom={this.state.reel2.bottom} spinning={this.state.spin} />
-          <Reel className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} spinning={this.state.spin} />
+          <Reel id="reel1" className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel1.top} middle={this.state.reel1.middle} bottom={this.state.reel1.bottom} spinning={this.state.spin} paused={this.state.reel1Paused} />
+          <Reel id="reel2" className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel2.top} middle={this.state.reel2.middle} bottom={this.state.reel2.bottom} spinning={this.state.spin} paused={this.state.reel2Paused} />
+          <Reel id="reel3" className={this.reelClasses} hasWinner={this.state.completed} top={this.state.reel3.top} middle={this.state.reel3.middle} bottom={this.state.reel3.bottom} spinning={this.state.spin} paused={this.state.reel3Paused} />
         </div>
       </div>
     )
@@ -195,6 +232,10 @@ var Reel = React.createClass({
 
     if (this.props.spinning) {
       this.itemClasses = 'reel-item spinning';
+
+      if (this.props.paused) {
+        this.itemClasses = 'reel-item spinning paused';
+      }
     }
 
     if (this.props.hasWinner) {

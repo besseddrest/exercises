@@ -3,18 +3,21 @@
   0% { top: 0; z-index: 2; }
   33% { top: 206px; z-index: 1; }
   66% { top: 412px; z-index: 2; }
+  /*67% { top: -206px; z-index: 0; }*/
   100% { top: 0; z-index: 0; }
 }
 
 @keyframes reel-middle {
   0% { top: 206px; z-index: 2; }
   33% { top: 412px; z-index: 0; }
+  /*34% { top: -206px; z-index: 0; }*/
   66% { top: 0; z-index: 0;}
   100% { top: 206px; z-index: 2; }
 }
 
 @keyframes reel-bottom {
   0% { top: 412px; z-index: 0; }
+  /*1% { top: -206px; z-index: 0; }*/
   33% { top: 0px; z-index: 0; }
   66% { top: 206px; z-index: 2; }
   100% { top: 412px; z-index: 1; }
@@ -47,23 +50,39 @@ body {
 
 /* Reels */
 .reel {
+  position: relative;
+  overflow: hidden;
   width: 206px;
   height: 618px;
   background: white;
 }
-.spinning[data-position="reel-top"] {
+
+[data-position="reel-top"] {
   top: 0;
+}
+
+[data-position="reel-middle"] {
+  top: 206px;
+}
+
+[data-position="reel-bottom"] {
+  top: 412px;
+}
+
+.spinning[data-position="reel-top"] {
   animation-name: reel-top;
 }
 
 .spinning[data-position="reel-middle"] {
-  top: 206px;
   animation-name: reel-middle;
 }
 
 .spinning[data-position="reel-bottom"] {
-  top: 412px;
   animation-name: reel-bottom;
+}
+
+.paused {
+  animation-play-state: paused;
 }
 
 .reel-item {
