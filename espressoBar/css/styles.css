@@ -3,21 +3,39 @@
   0% { top: 0; z-index: 2; }
   33% { top: 206px; z-index: 1; }
   66% { top: 412px; z-index: 2; }
-  /*67% { top: -206px; z-index: 0; }*/
   100% { top: 0; z-index: 0; }
 }
 
 @keyframes reel-middle {
   0% { top: 206px; z-index: 2; }
   33% { top: 412px; z-index: 0; }
-  /*34% { top: -206px; z-index: 0; }*/
   66% { top: 0; z-index: 0;}
   100% { top: 206px; z-index: 2; }
 }
 
 @keyframes reel-bottom {
   0% { top: 412px; z-index: 0; }
-  /*1% { top: -206px; z-index: 0; }*/
+  33% { top: 0px; z-index: 0; }
+  66% { top: 206px; z-index: 2; }
+  100% { top: 412px; z-index: 1; }
+}
+
+@-webkit-keyframes reel-top {
+  0% { top: 0; z-index: 2; }
+  33% { top: 206px; z-index: 1; }
+  66% { top: 412px; z-index: 2; }
+  100% { top: 0; z-index: 0; }
+}
+
+@-webkit-keyframes reel-middle {
+  0% { top: 206px; z-index: 2; }
+  33% { top: 412px; z-index: 0; }
+  66% { top: 0; z-index: 0;}
+  100% { top: 206px; z-index: 2; }
+}
+
+@-webkit-keyframes reel-bottom {
+  0% { top: 412px; z-index: 0; }
   33% { top: 0px; z-index: 0; }
   66% { top: 206px; z-index: 2; }
   100% { top: 412px; z-index: 1; }
@@ -50,6 +68,7 @@ body {
 
 /* Reels */
 .reel {
+  margin:0 auto;
   position: relative;
   overflow: hidden;
   width: 206px;
@@ -71,39 +90,39 @@ body {
 
 .spinning[data-position="reel-top"] {
   animation-name: reel-top;
+  -webkit-animation-name: reel-top;
 }
 
 .spinning[data-position="reel-middle"] {
   animation-name: reel-middle;
+  -webkit-animation-name: reel-middle;
 }
 
 .spinning[data-position="reel-bottom"] {
   animation-name: reel-bottom;
+  -webkit-animation-name: reel-bottom;
 }
 
 .paused {
   animation-play-state: paused;
+  -webkit-animation-play-state: paused;
 }
 
 .reel-item {
   position:absolute;
   display: block; 
-  animation-duration: .5s;
-  animation-iteration-count: infinite;
+  animation-duration: 1s;
+  animation-iteration-count: 10;
   animation-fill-mode: forwards;
   animation-timing-function: linear;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: 10;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-animation-timing-function: linear;
 }
 
 .reel img {
   border: 3px solid #efefef;
-}
-
-.reel.no-shift {
-  margin-top: 0;
-}
-
-.reel.shift {
-  margin-top:-1000px;
 }
 
 .reel-item {

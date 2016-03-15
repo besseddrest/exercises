@@ -4,7 +4,6 @@ var EspressoBar = React.createClass({
       winner: '',
       prize: '',
       completed: false,
-      shift: false,
       reel1Paused: false,
       reel2Paused: false,
       reel3Paused: false,
@@ -33,112 +32,86 @@ var EspressoBar = React.createClass({
   },
 
   _pauseReels: function() {
-    // selects the random stop times for each reel
-    var reel1Times = [1166, 1332, 1500];
-    var reel2Times = [2166, 2332, 2500];
-    var reel3Times = [3166, 3332, 3500];
+    // possible stop times for each reel,
+    // based on 1/3 of 1 second
+    // stop times offset by 1000 ms so that they are staggered
+    var reelTimes = [
+      [1333, 1666, 2000],
+      [2333, 2666, 3000],
+      [3333, 3666, 4000]
+    ];
 
-    var reel1Timeout = reel1Times[Math.floor(Math.random()*3)];
-    var reel2Timeout = reel2Times[Math.floor(Math.random()*3)];
-    var reel3Timeout = reel3Times[Math.floor(Math.random()*3)];
+    var reelTimeouts = []
 
-    console.log(reel1Timeout + ', ' + reel2Timeout + ', ' + reel3Timeout);
+    for (var i = 0; i < reelTimes.length; i++) {
+      // select a random stop time for each reel
+      var timeout = reelTimes[i][Math.floor(Math.random() * 3)];
+
+      reelTimeouts.push(timeout);
+    }
 
     var component = this;
 
+    // pause each reel based on random stop time
     setTimeout(function(){
       component.setState({reel1Paused: true});
-    }, reel1Timeout);
+    }, reelTimeouts[0]);
 
     setTimeout(function(){
       component.setState({reel2Paused: true});
-    }, reel2Timeout);
+    }, reelTimeouts[1]);
 
     setTimeout(function(){
-      component.setState({reel3Paused: true}, component._straightenReels);
-    }, reel3Timeout);
+      component.setState({reel3Paused: true}, component._straightenRows);
+    }, reelTimeouts[2]);
 
   },
 
-  _straightenReels: function() {
-    // set reels based on new offset
+  _straightenRows: function() {
+    // the rows won't always line up exactly
+    // in this method we'll `straighten` the rows by setting state
+    // we'll use the img offsets to determine each reel's new state
+    var reels = [
+      document.getElementById('reel1').getElementsByTagName('img'),
+      document.getElementById('reel2').getElementsByTagName('img'),
+      document.getElementById('reel3').getElementsByTagName('img')
+    ];
 
-    // cycle through each reel and store offsets
+    var newReels = [];
 
-    // order each reel by offset
+    // cycle through each reel
+    for (var i = 0; i < reels.length; i++) {
+      var sortable = [];
+      
+      // store the offset and src of each reel item
+      for (var j = 0; j < reels[i].length; j++) {
+        var src = $(reels[i][j]).attr('src');
+        var offset = $(reels[i][j]).offset().top;
+        
+        sortable.push([src, offset]);
+      }
 
-    // set state: reels and spin
+      // sort this reel by the offsets, top to bottom
+      sortable.sort(function(a, b) {return a[1] - b[1]});
 
-  },
-
-  play2: function() {
-    var reels = {};
-    var reelArray = [];
-    
-    // there are three reels, we need to do this three times
-    for (var i = 1; i <= 3; i++) {
-      var currentReel = 'reel' + i;
-
-      // push this reel's values into a temp array that we will shuffle
-      reelArray.push(this.state[currentReel].top);
-      reelArray.push(this.state[currentReel].middle);
-      reelArray.push(this.state[currentReel].bottom);
-
-      reelArray = this._shuffle(reelArray);
-
-      // new randomized values
-      reels[currentReel] = {
-        top: reelArray[0],
-        middle: reelArray[1],
-        bottom: reelArray[2]
+      // store the new sorted reel order
+      newReels[i] = {
+        top: sortable[0][0],
+        middle: sortable[1][0],
+        bottom: sortable[2][0]
       };
-
-      // clear the temp array
-      reelArray = [];
     }
 
-    // set reels in state, then shift the reels
+    // set the reel order in state and get the winner
     this.setState({
-      shift: true,
-      reel1: reels.reel1,
-      reel2: reels.reel2,
-      reel3: reels.reel3
-    }, this._shift);
-
-  },
-
-  _shift: function() {
-    // A jQuery solution for spinning the reels (carousel/slideshow) would be 
-    // much nicer here, but we shouldn't change DOM elements directly in React
-    var component = this;
-
-    // instead, we'll shift the reels out of the field of view
-    // randomize the items within the reel
-    // and then shift them back
-    setTimeout(function(){
-      component.setState({shift: false}, component._getWinner);
-    }, 100);
-  },
-
-  _shuffle: function(arr) {
-    /* Fisher-Yates Shuffle */
-    var currentIndex = arr.length, temporaryValue, randomIndex;
-
-    // while there remain elements to shuffle
-    while (0 !== currentIndex) {
-
-      // pick a remaining element
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      // swap it with the current element
-      temporaryValue = arr[currentIndex];
-      arr[currentIndex] = arr[randomIndex];
-      arr[randomIndex] = temporaryValue;
-    }
-
-    return arr;
-    /* end Fisher-Yates Shuffle */
+      reel1: newReels[0],
+      reel2: newReels[1],
+      reel3: newReels[2],
+      reel1Paused: false,
+      reel2Paused: false,
+      reel3Paused: false,
+      spin: false
+    }, this._getWinner);
   },
 
   _getWinner: function() {
@@ -194,11 +167,7 @@ var EspressoBar = React.createClass({
     // classes will use CSS transitions for animation
     this.prizeClasses = '';
     this.buttonClasses = 'btn btn-primary btn-lg';
-    this.reelClasses = 'reel list-unstyled no-shift';
-
-    if (this.state.shift) {
-      this.reelClasses = 'reel list-unstyled shift';
-    }
+    this.reelClasses = 'reel list-unstyled';
 
     if (this.state.completed) {
       this.prizeClasses = 'winner'
