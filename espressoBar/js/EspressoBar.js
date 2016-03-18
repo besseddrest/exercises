@@ -33,7 +33,7 @@ var EspressoBar = React.createClass({
 
   _pauseReels: function() {
     // possible stop times for each reel,
-    // based on 1/3 of 1 second
+    // based on 1/3 second
     // stop times offset by 1000 ms so that they are staggered
     var reelTimes = [
       [1333, 1666, 2000],
