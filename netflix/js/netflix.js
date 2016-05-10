@@ -89,6 +89,9 @@ var Details = React.createClass({
     }
   },
 
+  // always start with overview tab open
+  // probably better to key off change in state rather than this jquery solution
+  // this will work for now
   handleClick: function(tab) {
     $('.tab').hide();
     $('.tab-' + tab).fadeIn();
@@ -138,8 +141,6 @@ var Title = React.createClass({
   handleClick: function() {
     this.props.details(this.state.titleData);
 
-    // always start with overview tab open
-    // should probably key off state instead of using jquery
     $('.tab').hide();
     $('.tab-overview').fadeIn();
   },
