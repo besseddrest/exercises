@@ -109,15 +109,10 @@ var Details = React.createClass({displayName: "Details",
               React.createElement("p", null, this.props.details.description)
             ), 
             React.createElement("div", {"data-content-name": "related", className: "tab tab-related"}, 
-              React.createElement("p", null, 
-                "should probably create a flag to indicate whether title is a show vs movie, so we can display episodes or related titles"
-              )
+              React.createElement("p", null, "more-like-this goes here")
             ), 
             React.createElement("div", {"data-content-name": "details", className: "tab tab-details"}, 
-              React.createElement("p", null, 
-                "details go here", React.createElement("br", null), 
-                "subgenres, director, ratings"
-              )
+              React.createElement("p", null, "details goes here")
             )
           )
         )

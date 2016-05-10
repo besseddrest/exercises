@@ -1,4 +1,4 @@
-var MyNetflix = React.createClass({displayName: "MyNetflix",
+var Netflix = React.createClass({displayName: "Netflix",
   getInitialState: function() {
     return {
       headline: 'Harold\'s Netflix',
@@ -7,7 +7,7 @@ var MyNetflix = React.createClass({displayName: "MyNetflix",
     };
   },
 
-  // parent `MyNetflix` keeps track of the clicked title
+  // parent `Netflix` keeps track of the clicked title
   // so we know which `Category` to display the `Details` component
   showActive: function(clickedTitle) {
     this.setState({activeTitle: clickedTitle});
@@ -29,7 +29,7 @@ var MyNetflix = React.createClass({displayName: "MyNetflix",
   }
 });
 
-// child of `MyNetflix`
+// child of Netflix
 var Category = React.createClass({displayName: "Category",
   getInitialState: function() {
     return {
@@ -109,15 +109,10 @@ var Details = React.createClass({displayName: "Details",
               React.createElement("p", null, this.props.details.description)
             ), 
             React.createElement("div", {"data-content-name": "related", className: "tab tab-related"}, 
-              React.createElement("p", null, 
-                "should probably create a flag to indicate whether title is a show vs movie, so we can display episodes or related titles"
-              )
+              React.createElement("p", null, "more-like-this goes here")
             ), 
             React.createElement("div", {"data-content-name": "details", className: "tab tab-details"}, 
-              React.createElement("p", null, 
-                "details go here", React.createElement("br", null), 
-                "subgenres, director, ratings"
-              )
+              React.createElement("p", null, "details goes here")
             )
           )
         )
@@ -134,7 +129,7 @@ var Title = React.createClass({displayName: "Title",
     }
   },
 
-  // passes clicked title's data to `setDetails` method in parent
+  // calls `setDetails` method in parent
   handleClick: function() {
     this.props.details(this.state.titleData);
   },
@@ -148,4 +143,4 @@ var Title = React.createClass({displayName: "Title",
   }
 });
 
-ReactDOM.render(React.createElement(MyNetflix, null), document.getElementById('react-container'));
+ReactDOM.render(React.createElement(Netflix, null), document.getElementById('react-container'));

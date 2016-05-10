@@ -2,3 +2,19 @@
   border: 1px solid red;
   height: 125px;
 }
+
+.tabs ul {
+  list-style: none;
+}
+
+.tabs ul li {
+  text-align: center;
+}
+
+.tabs .tab {
+  display: none;
+}
+
+.tabs .tab-overview {
+  display: block;
+}

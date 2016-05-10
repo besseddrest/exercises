@@ -1,25 +1,27 @@
-var MyNetflix = React.createClass({displayName: "MyNetflix",
+var Netflix = React.createClass({displayName: "Netflix",
   getInitialState: function() {
     return {
       headline: 'Harold\'s Netflix',
       allMovies: allMovies,
-      activeTitle: null
+      active: null
     };
   },
 
-  // parent `MyNetflix` keeps track of the clicked title
-  // so we know which `Category` to display the `Details` component
-  showActive: function(clickedTitle) {
-    this.setState({activeTitle: clickedTitle});
+  // used to display the Details only in the Category in which the Title is clicked
+  showActive: function(activeTitle) {
+    this.setState({active: activeTitle});
   },
 
   eachCategory: function(category, i) {
+    // TODO: understand the significance of `key` and `i`
     return (
-      React.createElement(Category, {activeTitleInCategory: this.state.activeTitle, active: this.showActive, titles: category.titles, genre: category.genre, key: category.genre_id, index: i})
+      React.createElement(Category, {activeTitle: this.state.active, active: this.showActive, titles: category.titles, genre: category.genre, key: category.genre_id, index: i})
     );
   },
 
   render: function() {
+    console.log(this.state.currentTitle);
+    // TODO: understand why the return needs a container element
     return (
       React.createElement("div", {className: "container"}, 
         React.createElement("h1", null, this.state.headline), 
@@ -29,20 +31,22 @@ var MyNetflix = React.createClass({displayName: "MyNetflix",
   }
 });
 
-// child of `MyNetflix`
+// child of Netflix
 var Category = React.createClass({displayName: "Category",
   getInitialState: function() {
     return {
       titles: this.props.titles,
-      clickedTitle: {}
+      activeTitle: {}
     };
   },
 
+  // sets `activeTitle` with the data of clicked Title component 
   setDetails: function(clickedTitle) {
     this.setState({
-      clickedTitle: clickedTitle,
+      activeTitle: clickedTitle,
     });
 
+    // tells Parent that the clicked title is the active one
     this.props.active(clickedTitle);
   },
 
@@ -53,8 +57,8 @@ var Category = React.createClass({displayName: "Category",
   },
 
   render: function() {
-    // renders Details only in clicked title's category
-    if (this.props.activeTitleInCategory === this.state.clickedTitle) {
+    // renders Details only in current Category
+    if (this.props.currentTitle === this.state.currentTitle) {
       return (
         React.createElement("div", null, 
           React.createElement("h2", null, this.props.genre), 
@@ -62,7 +66,7 @@ var Category = React.createClass({displayName: "Category",
             React.createElement("div", {className: "row"}, 
               this.state.titles.map(this.eachTitle)
             ), 
-            React.createElement(Details, {details: this.state.clickedTitle})
+            React.createElement(Details, {details: this.state.current})
           )
         )
       )
@@ -81,7 +85,6 @@ var Category = React.createClass({displayName: "Category",
   }
 });
 
-// child of `Category`
 var Details = React.createClass({displayName: "Details",
   getInitialState: function() {
     return {
@@ -89,34 +92,15 @@ var Details = React.createClass({displayName: "Details",
     }
   },
 
-  handleClick: function(tab) {
-    $('.tab').hide();
-    $('.tab-' + tab).fadeIn();
-  },
-
   render: function() {
     return (
       React.createElement("div", {className: "row"}, 
         React.createElement("div", {className: "col-xs-12"}, 
-          React.createElement("h3", null, this.props.details.name), 
-          React.createElement("div", {className: "tabs"}, 
-            React.createElement("ul", null, 
-              React.createElement("li", {className: "col-xs-4", onClick: this.handleClick.bind(null, 'overview')}, "OVERVIEW"), 
-              React.createElement("li", {className: "col-xs-4", onClick: this.handleClick.bind(null, 'related')}, "MORE LIKE THIS"), 
-              React.createElement("li", {className: "col-xs-4", onClick: this.handleClick.bind(null, 'details')}, "DETAILS")
-            ), 
-            React.createElement("div", {"data-content-name": "overview", className: "tab tab-overview"}, 
-              React.createElement("p", null, this.props.details.description)
-            ), 
-            React.createElement("div", {"data-content-name": "related", className: "tab tab-related"}, 
-              React.createElement("p", null, 
-                "should probably create a flag to indicate whether title is a show vs movie, so we can display episodes or related titles"
-              )
-            ), 
-            React.createElement("div", {"data-content-name": "details", className: "tab tab-details"}, 
-              React.createElement("p", null, 
-                "details go here", React.createElement("br", null), 
-                "subgenres, director, ratings"
+          React.createElement("div", {className: "details-block"}, 
+            React.createElement("h3", null, this.props.details.name), 
+            React.createElement("div", {className: "tabs"}, 
+              React.createElement("div", {className: "overview"}, 
+                React.createElement("p", null, this.props.details.description)
               )
             )
           )
@@ -126,7 +110,7 @@ var Details = React.createClass({displayName: "Details",
   }
 });
 
-// child of `Category`
+// child of Category
 var Title = React.createClass({displayName: "Title",
   getInitialState: function() {
     return {
@@ -134,7 +118,7 @@ var Title = React.createClass({displayName: "Title",
     }
   },
 
-  // passes clicked title's data to `setDetails` method in parent
+  // calls `setDetails` method in parent
   handleClick: function() {
     this.props.details(this.state.titleData);
   },
@@ -148,4 +132,4 @@ var Title = React.createClass({displayName: "Title",
   }
 });
 
-ReactDOM.render(React.createElement(MyNetflix, null), document.getElementById('react-container'));
+ReactDOM.render(React.createElement(Netflix, null), document.getElementById('react-container'));

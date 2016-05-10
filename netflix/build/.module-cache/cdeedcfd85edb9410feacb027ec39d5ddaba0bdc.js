@@ -110,7 +110,10 @@ var Details = React.createClass({displayName: "Details",
             ), 
             React.createElement("div", {"data-content-name": "related", className: "tab tab-related"}, 
               React.createElement("p", null, 
-                "should probably create a flag to indicate whether title is a show vs movie, so we can display episodes or related titles"
+                "related titles will go here, data will probably be an array of ids of the related titles"
+              ), 
+              React.createElement("p", null, 
+                "or, probably create a flag to indicate whether title is a show vs movie, so we can display episodes or related titles"
               )
             ), 
             React.createElement("div", {"data-content-name": "details", className: "tab tab-details"}, 
