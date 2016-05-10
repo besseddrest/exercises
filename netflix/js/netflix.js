@@ -137,6 +137,11 @@ var Title = React.createClass({
   // passes clicked title's data to `setDetails` method in parent
   handleClick: function() {
     this.props.details(this.state.titleData);
+
+    // always start with overview tab open
+    // should probably key off state instead of using jquery
+    $('.tab').hide();
+    $('.tab-overview').fadeIn();
   },
 
   render: function() {

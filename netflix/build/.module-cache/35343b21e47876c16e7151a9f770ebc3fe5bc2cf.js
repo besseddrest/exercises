@@ -141,7 +141,7 @@ var Title = React.createClass({displayName: "Title",
     // always start with overview tab open
     // is there a better way to do this?
     $('.tab').hide();
-    $('.tab-overview').fadeIn();
+    $('.tab-overview' + tab).fadeIn();
   },
 
   render: function() {
