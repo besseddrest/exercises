@@ -133,16 +133,11 @@ var Details = React.createClass({displayName: "Details",
 var Title = React.createClass({displayName: "Title",
   getInitialState: function() {
     return {
-      titleData: this.props.titleData,
-      highlight: {
-        title: '',
-        teaser: ''
-      }
+      titleData: this.props.titleData
     }
   },
 
   // passes clicked title's data to `setDetails` method in parent
-  // expands details section
   handleClick: function() {
     this.props.details(this.state.titleData);
 
@@ -150,32 +145,10 @@ var Title = React.createClass({displayName: "Title",
     $('.tab-overview').fadeIn();
   },
 
-  // highlight, enlarge, and show teaser
-  handleMouseOver: function() {
-    this.setState({
-      highlight: {
-        title: this.props.titleData.name,
-        teaser: 'teaser for ' + this.props.titleData.name
-      }
-    });
-  },
-
-  // clear highlight
-  handleMouseOut: function() {
-    this.setState({
-      highlight: {
-        title: '',
-        teaser: ''
-      }
-    });
-  },
-
   render: function() {
     return (
-      React.createElement("div", {onClick: this.handleClick, onMouseOver: this.handleMouseOver, onMouseOut: this.handleMouseOut, className: "title-thumb col-xs-4"}, 
-        React.createElement("span", {className: "title-name"}, this.props.titleData.name), React.createElement("br", null), 
-        React.createElement("small", null, this.state.highlight.title), React.createElement("br", null), 
-        React.createElement("small", null, this.state.highlight.teaser)
+      React.createElement("div", {onClick: this.handleClick, onHover: this.handleClick, className: "title-thumb col-xs-4"}, 
+        React.createElement("span", {className: "title-name"}, this.props.titleData.name)
       )
     );
   }

@@ -133,11 +133,16 @@ var Details = React.createClass({
 var Title = React.createClass({
   getInitialState: function() {
     return {
-      titleData: this.props.titleData
+      titleData: this.props.titleData,
+      highlight: {
+        title: '',
+        teaser: ''
+      }
     }
   },
 
   // passes clicked title's data to `setDetails` method in parent
+  // expands details section
   handleClick: function() {
     this.props.details(this.state.titleData);
 
@@ -145,10 +150,32 @@ var Title = React.createClass({
     $('.tab-overview').fadeIn();
   },
 
+  // highlight, enlarge, and show teaser
+  handleMouseOver: function() {
+    this.setState({
+      highlight: {
+        title: this.props.titleData.name,
+        teaser: 'teaser for ' + this.props.titleData.name
+      }
+    });
+  },
+
+  // clear highlight
+  handleMouseOut: function() {
+    this.setState({
+      highlight: {
+        title: '',
+        teaser: ''
+      }
+    });
+  },
+
   render: function() {
     return (
-      <div onClick={this.handleClick} className="title-thumb col-xs-4">
-        <span className="title-name">{this.props.titleData.name}</span>
+      <div onClick={this.handleClick} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} className="title-thumb col-xs-4">
+        <span className="title-name">{this.props.titleData.name}</span><br />
+        <small>{this.state.highlight.title}</small><br />
+        <small>{this.state.highlight.teaser}</small>
       </div>
     );
   }

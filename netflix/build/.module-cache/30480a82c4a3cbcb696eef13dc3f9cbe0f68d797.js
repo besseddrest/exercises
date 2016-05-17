@@ -173,7 +173,7 @@ var Title = React.createClass({displayName: "Title",
   render: function() {
     return (
       React.createElement("div", {onClick: this.handleClick, onMouseOver: this.handleMouseOver, onMouseOut: this.handleMouseOut, className: "title-thumb col-xs-4"}, 
-        React.createElement("span", {className: "title-name"}, this.props.titleData.name), React.createElement("br", null), 
+        React.createElement("span", {className: "title-name"}, this.props.titleData.name), 
         React.createElement("small", null, this.state.highlight.title), React.createElement("br", null), 
         React.createElement("small", null, this.state.highlight.teaser)
       )
