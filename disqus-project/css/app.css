@@ -1,0 +1,31 @@
+body {
+  font-family: "Helvetica Neue", arial, sans-serif;
+  color: #2a2e2e; }
+
+.comment {
+  border: 1px solid red;
+  width: 100%; }
+  .comment__profile-pic {
+    display: inline-block;
+    width: 92px;
+    margin-right: 15px;
+    vertical-align: top; }
+  .comment__details {
+    border: 1px solid green;
+    display: inline-block;
+    width: 80%; }
+  .comment__user {
+    font-weight: bold; }
+  .comment__post-time {
+    color: #656c7a; }
+    .comment__post-time:hover {
+      color: #2a2e2e; }
+  .comment__links--light {
+    color: #656c7a; }
+    .comment__links--light:hover {
+      color: #2a2e2e; }
+  .comment__upvote, .comment__downvote, .comment__reply, .comment__share, .comment__user, .comment__post-time {
+    color: #2a2e2e;
+    text-decoration: none; }
+
+/*# sourceMappingURL=app.css.map */

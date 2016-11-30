@@ -1,0 +1,57 @@
+@import 'mixins';
+
+body {
+  font-family: "Helvetica Neue", arial, sans-serif;
+  color: #2a2e2e;
+}
+
+.comment {
+  border: 1px solid red;
+  width: 100%;
+
+  @include e('profile-pic') {
+    display: inline-block;
+    width: 92px;
+    margin-right: 15px;
+    vertical-align: top;
+  }
+
+  @include e('details') {
+    border: 1px solid green;
+    display: inline-block;
+    width: 80%;
+  }
+
+  @include e('user') {
+    font-weight: bold;
+  }
+
+  @include e('post-time') {
+    color: #656c7a;
+
+    &:hover {
+      color: #2a2e2e;
+    }
+  }
+
+  @include e('links') {
+
+    @include m('light') {
+      color: #656c7a;
+
+      &:hover {
+        color: #2a2e2e;
+      }
+    }
+  }
+
+  &__upvote,
+  &__downvote,
+  &__reply,
+  &__share,
+  &__user,
+  &__post-time {
+    color: #2a2e2e;
+    text-decoration: none;
+  }
+}
