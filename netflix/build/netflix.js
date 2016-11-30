@@ -54,30 +54,17 @@ var Category = React.createClass({displayName: "Category",
 
   render: function() {
     // renders Details only in clicked title's category
-    if (this.props.activeTitleInCategory === this.state.clickedTitle) {
-      return (
-        React.createElement("div", null, 
-          React.createElement("h2", null, this.props.genre), 
-          React.createElement("div", {className: "container"}, 
-            React.createElement("div", {className: "row"}, 
-              this.state.titles.map(this.eachTitle)
-            ), 
-            React.createElement(Details, {details: this.state.clickedTitle})
-          )
+    return (
+      React.createElement("div", null, 
+        React.createElement("h2", null, this.props.genre), 
+        React.createElement("div", {className: "container"}, 
+          React.createElement("div", {className: "row"}, 
+            this.state.titles.map(this.eachTitle)
+          ), 
+          React.createElement(Details, {details: this.state.clickedTitle})
         )
       )
-    } else {
-      return (
-        React.createElement("div", null, 
-          React.createElement("h2", null, this.props.genre), 
-          React.createElement("div", {className: "container"}, 
-            React.createElement("div", {className: "row"}, 
-              this.state.titles.map(this.eachTitle)
-            )
-          )
-        )
-      )
-    }
+    );
   }
 });
 
@@ -85,7 +72,8 @@ var Category = React.createClass({displayName: "Category",
 var Details = React.createClass({displayName: "Details",
   getInitialState: function() {
     return {
-      active: this.props.details
+      active: this.props.details,
+      selected: 'overview'
     }
   },
 
@@ -93,30 +81,38 @@ var Details = React.createClass({displayName: "Details",
   // probably better to key off change in state rather than this jquery solution
   // this will work for now
   handleClick: function(tab) {
-    $('.tab').hide();
-    $('.tab-' + tab).fadeIn();
+    //this.setState({selected: tab});
   },
 
-  render: function() {
+  renderTabClass: function(tab) {
+    var classes = 'tab + tab-' + tab;
+    if (tab === this.state.selected) {
+      classes = classes + ' selected';
+    }
+
+    return classes;
+  },
+
+  render: function() {    
     return (
       React.createElement("div", {className: "row"}, 
         React.createElement("div", {className: "col-xs-12"}, 
           React.createElement("h3", null, this.props.details.name), 
           React.createElement("div", {className: "tabs"}, 
             React.createElement("ul", null, 
-              React.createElement("li", {className: "col-xs-4", onClick: this.handleClick.bind(null, 'overview')}, "OVERVIEW"), 
-              React.createElement("li", {className: "col-xs-4", onClick: this.handleClick.bind(null, 'related')}, "MORE LIKE THIS"), 
-              React.createElement("li", {className: "col-xs-4", onClick: this.handleClick.bind(null, 'details')}, "DETAILS")
+              React.createElement("li", {className: "col-xs-4"}, React.createElement("a", {onClick: this.handleClick('overview')}, "OVERVIEW")), 
+              React.createElement("li", {className: "col-xs-4"}, React.createElement("a", {onClick: this.handleClick('related')}, "MORE LIKE THIS")), 
+              React.createElement("li", {className: "col-xs-4"}, React.createElement("a", {onClick: this.handleClick('details')}, "DETAILS"))
             ), 
-            React.createElement("div", {"data-content-name": "overview", className: "tab tab-overview"}, 
+            React.createElement("div", {"data-content-name": "overview", className: this.renderTabClass('overview')}, 
               React.createElement("p", null, this.props.details.description)
             ), 
-            React.createElement("div", {"data-content-name": "related", className: "tab tab-related"}, 
+            React.createElement("div", {"data-content-name": "related", className: this.renderTabClass('related')}, 
               React.createElement("p", null, 
                 "should probably create a flag to indicate whether title is a show vs movie, so we can display episodes or related titles"
               )
             ), 
-            React.createElement("div", {"data-content-name": "details", className: "tab tab-details"}, 
+            React.createElement("div", {"data-content-name": "details", className: this.renderTabClass('details')}, 
               React.createElement("p", null, 
                 "details go here", React.createElement("br", null), 
                 "subgenres, director, ratings"
@@ -146,8 +142,8 @@ var Title = React.createClass({displayName: "Title",
   handleClick: function() {
     this.props.details(this.state.titleData);
 
-    $('.tab').hide();
-    $('.tab-overview').fadeIn();
+    //$('.tab').hide();
+    //$('.tab-overview').fadeIn();
   },
 
   // highlight, enlarge, and show teaser
@@ -171,11 +167,17 @@ var Title = React.createClass({displayName: "Title",
   },
 
   render: function() {
+    this.teaserClasses = 'hidden';
+
+    if (this.state.highlight.title !== '') {
+      this.teaserClasses = 'visible'
+    }
+
     return (
       React.createElement("div", {onClick: this.handleClick, onMouseOver: this.handleMouseOver, onMouseOut: this.handleMouseOut, className: "title-thumb col-xs-4"}, 
         React.createElement("span", {className: "title-name"}, this.props.titleData.name), React.createElement("br", null), 
-        React.createElement("small", null, this.state.highlight.title), React.createElement("br", null), 
-        React.createElement("small", null, this.state.highlight.teaser)
+        React.createElement("small", {className: this.teaserClasses}, this.state.highlight.title), React.createElement("br", null), 
+        React.createElement("small", {className: this.teaserClasses}, this.state.highlight.teaser)
       )
     );
   }

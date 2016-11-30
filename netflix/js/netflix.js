@@ -54,30 +54,17 @@ var Category = React.createClass({
 
   render: function() {
     // renders Details only in clicked title's category
-    if (this.props.activeTitleInCategory === this.state.clickedTitle) {
-      return (
-        <div>
-          <h2>{this.props.genre}</h2>
-          <div className="container">
-            <div className="row">
-              {this.state.titles.map(this.eachTitle)}
-            </div>
-            <Details details={this.state.clickedTitle} />
+    return (
+      <div>
+        <h2>{this.props.genre}</h2>
+        <div className="container">
+          <div className="row">
+            {this.state.titles.map(this.eachTitle)}
           </div>
+          <Details details={this.state.clickedTitle} />
         </div>
-      )
-    } else {
-      return (
-        <div>
-          <h2>{this.props.genre}</h2>
-          <div className="container">
-            <div className="row">
-              {this.state.titles.map(this.eachTitle)}
-            </div>
-          </div>
-        </div>
-      )
-    }
+      </div>
+    );
   }
 });
 
@@ -85,7 +72,8 @@ var Category = React.createClass({
 var Details = React.createClass({
   getInitialState: function() {
     return {
-      active: this.props.details
+      active: this.props.details,
+      selected: 'overview'
     }
   },
 
@@ -93,30 +81,38 @@ var Details = React.createClass({
   // probably better to key off change in state rather than this jquery solution
   // this will work for now
   handleClick: function(tab) {
-    $('.tab').hide();
-    $('.tab-' + tab).fadeIn();
+    //this.setState({selected: tab});
   },
 
-  render: function() {
+  renderTabClass: function(tab) {
+    var classes = 'tab + tab-' + tab;
+    if (tab === this.state.selected) {
+      classes = classes + ' selected';
+    }
+
+    return classes;
+  },
+
+  render: function() {    
     return (
       <div className="row">
         <div className="col-xs-12">
           <h3>{this.props.details.name}</h3>
           <div className="tabs">
             <ul>
-              <li className="col-xs-4" onClick={this.handleClick.bind(null, 'overview')}>OVERVIEW</li>
-              <li className="col-xs-4" onClick={this.handleClick.bind(null, 'related')}>MORE LIKE THIS</li>
-              <li className="col-xs-4" onClick={this.handleClick.bind(null, 'details')}>DETAILS</li>
+              <li className="col-xs-4"><a onClick={this.handleClick('overview')}>OVERVIEW</a></li>
+              <li className="col-xs-4"><a onClick={this.handleClick('related')}>MORE LIKE THIS</a></li>
+              <li className="col-xs-4"><a onClick={this.handleClick('details')}>DETAILS</a></li>
             </ul>
-            <div data-content-name="overview" className="tab tab-overview">
+            <div data-content-name="overview" className={this.renderTabClass('overview')}>
               <p>{this.props.details.description}</p>
             </div>
-            <div data-content-name="related" className="tab tab-related">
+            <div data-content-name="related" className={this.renderTabClass('related')}>
               <p>
                 should probably create a flag to indicate whether title is a show vs movie, so we can display episodes or related titles
               </p>
             </div>
-            <div data-content-name="details" className="tab tab-details">
+            <div data-content-name="details" className={this.renderTabClass('details')}>
               <p>
                 details go here<br />
                 subgenres, director, ratings
@@ -146,8 +142,8 @@ var Title = React.createClass({
   handleClick: function() {
     this.props.details(this.state.titleData);
 
-    $('.tab').hide();
-    $('.tab-overview').fadeIn();
+    //$('.tab').hide();
+    //$('.tab-overview').fadeIn();
   },
 
   // highlight, enlarge, and show teaser
@@ -171,11 +167,17 @@ var Title = React.createClass({
   },
 
   render: function() {
+    this.teaserClasses = 'hidden';
+
+    if (this.state.highlight.title !== '') {
+      this.teaserClasses = 'visible'
+    }
+
     return (
       <div onClick={this.handleClick} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} className="title-thumb col-xs-4">
         <span className="title-name">{this.props.titleData.name}</span><br />
-        <small>{this.state.highlight.title}</small><br />
-        <small>{this.state.highlight.teaser}</small>
+        <small className={this.teaserClasses}>{this.state.highlight.title}</small><br />
+        <small className={this.teaserClasses}>{this.state.highlight.teaser}</small>
       </div>
     );
   }
