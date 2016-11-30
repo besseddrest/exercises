@@ -1,2 +1,4 @@
 *.DS_Store
 *.module-cache
+*.sass-cache
+*.zip
