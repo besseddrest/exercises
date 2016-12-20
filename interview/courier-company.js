@@ -10,14 +10,14 @@ function bindExample(a, b) {
 }
 */
 
-var str = 'hello';
+this.str = 'hello';
 
 var example = {
   str: 'world',
   getStr: function() {
-    return this.x;
+    return this.str;
   }
-}
+};
 
 example.getStr(); // 'world'
 
