@@ -1,6 +1,17 @@
 // A closure is an inner function that has access to its own local variables,
 // outer function's variables, global variables
 
+// provided function in map or forEach is an example of a closure, too
+// ES6
+numbers.map(v => { // returns new array
+  if (v % 2 == 0)
+    evens.push(v)
+})
+
+numbers.forEach(v => { // transforms array
+  if (v % 2 == 1)
+    odds.push(v)
+})
 
 
 
