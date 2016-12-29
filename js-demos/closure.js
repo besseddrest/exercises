@@ -14,3 +14,20 @@ function fantastic(yourName) {
 var isHero = fantastic('Harold');
 isHero('Wolverine'); // "No Harold, Wolverine is on a different team"
 isHero('Reed Richards'); // "Yes Harold, Reed Richards is in the Fantastic Four"
+
+// closures can privatize variables
+// self invoking function you can execute code without cluttering global namespace
+// could be event listeners, layout work, in this case, count = 0
+var counter = (function(){
+  var count = 0; // private and count only gets initialized once
+
+  return function() {
+    count++; // public
+  }
+})();// immediately invoked; count is now 0
+
+// outside functions cannot modify count!
+// only counter() can increment our count
+counter();
+counter();
+counter(); // count is 3
