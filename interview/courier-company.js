@@ -136,6 +136,51 @@ const deliveries = [
 // write to the hashtable
 // return only 30 items in that hashtable
 
+function getTop30CustomersV2(deliveries) {
+  const THIRTY_DAYS_IN_MS = 30 * 24 * 60 * 60 * 1000,
+        users = {}, // keep track of count
+        dates = {}, // keep track of last date
+        top30 = [], // will return top 30
+        today = Date.now(); // milliseconds
+
+  // filter out all the deliveries that are older than 30 days
+  const recentDeliveries = deliveries.filter(function(deliveries.date){
+    return (today - Date.parse(deliveries.date)) < THIRTY_DAYS_IN_MS;
+  });
+
+  // sort asc
+  recentDeliveries.sort(function(a,b){
+    return Date.parse(a.date) - Date.parse(b.date);
+  });
+
+  // create hashtable
+  for (let i = 0; i < recentDeliveries.length; i++) {
+    let name = recentDeliveries.customer.name;
+    // add or increment
+    if (users[name]) ? users[name]++ : users[name] = 1;
+    // will record the lastest date since we've sorted already
+    dates[name] = recentDeliveries.date;
+  }
+
+  // fill in top30
+  for (var name in users) {
+    top30.push({
+      name: users.name,
+      lastDeliveryDate: dates[users.name],
+      count: users.count
+    });
+  }
+
+  // top 30 customers, unsorted
+  return top30;
+}
+
+// iterate over deliveries
+// ignore date if not within 30 days
+// else
+// write to the hashtable
+// return only 30 items in that hashtable
+
 function getTop30Customers(deliveries) {
   const THIRTY_DAYS_IN_MS = 30 * 24 * 60 * 60 * 1000;
   var users = {};
