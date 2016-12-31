@@ -6,6 +6,27 @@
 // green --> yellow
 // yellow --> red
 // red --> green
+const stoplight = document.querySelector('.stoplight');
+const colors = ['red', 'yellow', 'green'];
+
+// listen for clicks on the stoplight
+stoplight.addEventListener('click', function() {
+	const active = document.querySelector(`.active`);
+	// get color of element that is currently active
+	const currentColor = active.dataset.color;
+	// get the index of the next color
+	let nextIndex = colors.indexOf(currentColor) + 1;
+	if (currentColor == 'green') {
+			nextIndex = 0;
+	}
+	// remove active class from active light
+	active.classList.remove('active');
+	// add active class to the next light based on colors array
+	document.querySelector(`[data-color=${colors[nextIndex]}]`).classList.add('active');
+});
+
+
+
 
 // written with jQuery
 // let's start with green
@@ -34,6 +55,5 @@ function changeLight() {
 
       $('#' + nextColor).addClass('active');
   });
+	changeLight();
 }
-
-changeLight();
