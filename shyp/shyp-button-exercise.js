@@ -26,6 +26,3 @@ function createButtons(num) {
     main.appendChild(button);
   }
 }
-
-// create 10 buttons
-createButtons(10);
