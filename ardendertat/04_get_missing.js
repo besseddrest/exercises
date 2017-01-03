@@ -1,5 +1,5 @@
-// There is an array of non-negative integers. 
-// A second array is formed by shuffling the elements of the first array and deleting a random element. 
+// There is an array of non-negative integers.
+// A second array is formed by shuffling the elements of the first array and deleting a random element.
 // Given these two arrays, find which element is missing in the second array.
 // See more at: http://www.ardendertat.com/2012/01/09/programming-interview-questions/#sthash.xEhLMuUN.dpuf
 
@@ -16,8 +16,8 @@
 // array 1 is the subject here
 // this is better than checking arr1[i] against all indexes of arr2
 
-var arr1 = [1,4,5,6,3,2,3];
-var arr2 = [3,5,6,2,1,4];
+var arr1 = [1,2,3,4,5,6,7,8,9];
+var arr2 = [9,8,7,6,4,3,2,1];
 
 function getMissing(arr1,arr2){
   var sorted1 = arr1.sort();
@@ -29,3 +29,13 @@ function getMissing(arr1,arr2){
     }
   }
 }
+
+// ES6
+function getMissing2(arr1, arr2) {
+  const sorted1 = arr1.sort();
+  const sorted2 = arr2.sort();
+
+  return sorted1[sorted1.findIndex((element, index) => sorted1[index] !== sorted2[index])];
+}
+
+console.log(getMissing2(arr1, arr2));
