@@ -1,4 +1,4 @@
-/* 
+/*
 From Kris Chan
 Given a list of numbers - if a number is divisible by 3, print "water." If it is divisible by 5, print "melon." If it is divisible by both, print "watermelon."
 
@@ -18,13 +18,13 @@ lets return something useful
 */
 
 function waterMelon(arr) {
-  
+
   for (var i = 0; i < arr.length; i++){
     var str = '';
-    
+
     // i = 2
     // 3
-    
+
     if (arr[i] % 3 === 0){
       str = 'water';
     }
@@ -33,16 +33,28 @@ function waterMelon(arr) {
     if (arr[i] % 5 === 0) {
       str = str + 'melon';
     }
-  
+
     if(str){
       console.log(str);
     }
   }
 }
 
-console.log(waterMelon([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]));
+// ES6
+function waterMelon2(arr) {
+  arr.forEach(num => {
+    let str = '';
+    if (num % 3 == 0) {
+      str = 'water';
+    }
+    if (num % 5 == 0) {
+      str = str + 'melon';
+    }
 
-// what did i learn
-// - remember that returning will break the for loop
-// - '' is falsey
-// - if we want to check all cases, try multiple ifs, instead if/else
+    if (str) {
+      console.log(str);
+    }
+  });
+}
+
+console.log(waterMelon2([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]));

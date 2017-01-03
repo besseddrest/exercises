@@ -24,7 +24,7 @@ return new string
 function reverseString(str) {
   // drop the captialization at the first char
   str = str.charAt(0).toLowerCase() + str.slice(1);
-  
+
   // store the punctuation at the end
   // we don't care about punctuation inbtwn
   // cause the sentence won't make sense anyway
@@ -32,22 +32,35 @@ function reverseString(str) {
   str = str.substring(0, str.length - 1);
   var arr = str.split(' ');
   var newStr = '';
-  
+
   // 5 words in str
   // str[4]
   // str[0]
   for (var i = (arr.length - 1); i >= 0; i--){
     newStr = newStr + arr[i] + ' ';
   }
-  
+
   // capital to start
   // clean up string here
   newStr = newStr.charAt(0).toUpperCase() + newStr.slice(1, newStr.length - 1) + punc;
-  
+
   return newStr;
 }
 
+function reverseString2(str) {
+  const punc = str.slice(str.length - 1); // pop off punctuation
+  const words = str.slice(0, str.length - 1);
+  const reversed = words.split(' ').reverse();
+  // capitalize first letter in first word
+  reversed[0] = reversed[0].charAt(0).toUpperCase() + reversed[0].slice(1);
+  // lowercase last word
+  reversed[reversed.length - 1] = reversed[reversed.length - 1].toLowerCase();
+  // return string with punctuation
+  return reversed.join(' ') + punc;
+}
+
 console.log(reverseString('Try CoderPad free for seven days!'));
+console.log(`reverseString2: ${reverseString2('Try CoderPad free for seven days!')}`);
 
 // O(n)
 // what did I learn?
