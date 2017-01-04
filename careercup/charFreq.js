@@ -17,16 +17,33 @@ assume there is no punctuation
 'Welcome to the wonderful world of engineering'
 
 */
+// ES6
+const frequency = function (str) {
+  // array of all lowercase letters, no spaces
+  const lowercase = str.toLowerCase().split(' ').join('').split('');
+
+  // hashtable of letter count
+  const count = lowercase.reduce(function(obj, letter) {
+    if (!obj[letter]) { // if it doesn't exist in the hashtable
+      obj[letter] = 0; // start with 0 count
+    }
+    obj[letter]++; // increment count
+    return obj; // return the object
+  }, {}) // start with an empty array
+
+  return count;
+}
+
+console.log(frequency('Welcome to the wonderful world of engineering'));
 
 function charFreq(str) {
-  
   // clean up string
   var cleanStr = cleanUpString(str);
   var frequency = {};
-  
+
   for (var i = 0; i < cleanStr.length; i++) {
     var letter = cleanStr[i];
-    
+
     // if it already exists
     if (frequency.hasOwnProperty(letter)) {
       frequency[letter] = frequency[letter] + 1;
@@ -34,14 +51,14 @@ function charFreq(str) {
     else {
       frequency[letter] = 1;
     }
-    
+
     // if the letter is not already in frequency
     // push the letter with quantity of 1
-    
+
     // if its already there
     // increase qty by 1
   }
-  
+
   return frequency;
 }
 

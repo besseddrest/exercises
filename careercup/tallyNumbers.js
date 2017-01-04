@@ -19,11 +19,11 @@
 
 function tallyNumbers(arr){
   var tally = {};
-  
+
   // cycle through each
   for ( var i = 0; i < arr.length; i++){
     // write each value to hashtable or 2D array
-    
+
     // exists in table, increment quantity
     var current = arr[i];
     if (current in tally) {
@@ -34,7 +34,7 @@ function tallyNumbers(arr){
       tally[current] = 1;
     }
   }
-  
+
   // k, how do we find the second least
   // uhhhh
   return getSecondLeast(tally);

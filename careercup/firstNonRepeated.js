@@ -14,11 +14,31 @@ tally each letter
 skip spaces
 is this O(n)?
 */
+// ES6
+const notRepeated = function(str) {
+  // array of lowercase letters
+  const lowercase = str.toLowerCase().split(' ').join('').split('');
+  // create hash table count
+  const count = lowercase.reduce(function(obj, letter){
+    if (!obj[letter]){
+      obj[letter] = 0;
+    }
+    obj[letter]++;
+    return obj;
+  }, {})
+  // return the letter with a count of 1
+  for (num in count) {
+    if (count[num] === 1) {
+      return num;
+    }
+  }
+}
+console.log(notRepeated('Salesforce is the best company to work for')); // l
 
 function firstNonRepeated(str) {
   var tally = {};
   var clean = cleanUpString(str);
-  
+
   for (var i = 0; i < str.length; i++) {
     // e
     // e in tally
@@ -29,14 +49,14 @@ function firstNonRepeated(str) {
       tally[current] = 1;
     }
   }
-  
+
   console.log(tally);
-  
+
   for (var key in tally) {
     if (tally[key] === 1){
       return key;
     }
-  } 
+  }
 }
 
 function cleanUpString(str) {
