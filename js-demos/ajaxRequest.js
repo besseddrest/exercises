@@ -1,6 +1,9 @@
+// create new request
 const myRequest = new XMLHttpRequest();
 let myResponse = '';
+// open a get request
 myRequest.open('GET', 'https://learnwebcode.github.io/json-example/animals-1.json');
+// what happens when response loads?
 myRequest.onload = function() {
   if (myRequest.status >= 200 && myRequest.status < 400) {
     myResponse = JSON.parse(myRequest.responseText);
@@ -15,6 +18,7 @@ myRequest.onerror = function() {
   console.log('there was an error');
 }
 
+// send the request
 myRequest.send();
 
 const btn = document.querySelector('.button');
