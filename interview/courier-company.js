@@ -136,6 +136,7 @@ const deliveries = [
 // write to the hashtable
 // return only 30 items in that hashtable
 
+/* NOT TESTED */
 function getTop30CustomersV3(deliveries) {
   const THIRTY_DAYS_IN_MS = 30 * 24 * 60 * 60 * 1000,
         top30 = [], // will return top 30
