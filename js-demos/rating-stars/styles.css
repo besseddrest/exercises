@@ -1,0 +1,31 @@
+body {
+  font-family: Helvetica, sans-serif;
+}
+
+.review--stars {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.review--star {
+  background: lightgrey;
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  float: left;
+  list-style: none;
+  cursor: pointer;
+}
+
+.review--star__highlight {
+  background: yellow;
+}
+
+.review--star__active {
+  background: lime;
+}
+
+.review--star__active:hover {
+  background: greenyellow;
+}
