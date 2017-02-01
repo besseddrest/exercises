@@ -1,0 +1,35 @@
+body {
+  font-family: Helvetica, sans-serif;
+}
+
+.input, .button {
+  display: inline-block;
+  font-size: 16px;
+}
+
+.item__active {
+  background: lightgrey;
+}
+
+.autocomplete {
+
+}
+
+.autocomplete .results {
+  margin: 0;
+  padding: 0;
+}
+
+.autocomplete .results li {
+  width: 300px;
+  padding: 10px 15px;
+  list-style: none;
+  color: grey;
+  font-size: 16px;
+  border-left: 1px solid lightgrey;
+  border-right: 1px solid lightgrey;
+}
+
+.autocomplete .results li:hover {
+  color: black;
+}
