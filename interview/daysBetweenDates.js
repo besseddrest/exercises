@@ -1,7 +1,3 @@
-// Hi Tim, thanks for your help on this exercise.
-// Since we got cut short
-// I'm guessing the last part was to figure out diff over multiple yrs
-// so I went ahead and finished it up.
 function daysBetweenDates(y1, m1, d1, y2, m2, d2) {
   let days = 0;
   // days in diff years
