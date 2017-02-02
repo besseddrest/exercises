@@ -1,3 +1,4 @@
+// years * 365 + return value from daysBetweenDatesInYear
 function daysBetweenDates(y1, m1, d1, y2, m2, d2) {
   let days = 0;
   // days in diff years
@@ -17,6 +18,7 @@ function daysBetweenDates(y1, m1, d1, y2, m2, d2) {
   return days;
 }
 
+// get days left in first month + days into last month, + days of months between
 function daysBetweenDatesInYear(y1, m1, d1, y2, m2, d2) {
   const daysInMonths = [31,28,31,30,31,30,31,31,30,31,30,31];
   let days = 0;
@@ -42,6 +44,3 @@ console.log(daysBetweenDates(2013, 2, 3, 2013, 9, 12)); // 221 days
 console.log(daysBetweenDates(2013, 9, 3, 2014, 2, 12)); // 162 days
 console.log(daysBetweenDates(2013, 2, 3, 2014, 9, 12)); // 586 days
 console.log(daysBetweenDates(2013, 2, 3, 2017, 9, 12)); // 1681 days
-
-// Sept 3, 2013
-// Feb 12, 2014
