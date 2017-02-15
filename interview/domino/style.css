@@ -1,0 +1,30 @@
+.board {
+  width: 120px;
+  height: 240px;
+  background: black;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.block--top {
+  border-bottom: 1px solid white;
+}
+
+table {
+  width: 120px;
+  height: 120px;
+}
+
+tr, td {
+  margin: 0;
+  padding: 0;
+}
+
+td {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  color: white;
+  font-size: 75px;
+  line-height: .1;
+}
