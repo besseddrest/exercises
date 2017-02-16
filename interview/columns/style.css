@@ -1,0 +1,8 @@
+.board {
+  display: flex;
+  border: 1px solid black;
+}
+
+.board--column {
+  flex: 1;
+}
